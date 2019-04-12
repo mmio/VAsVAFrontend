@@ -111,7 +111,7 @@ export default {
   brandDanger: "#d9534f",
   brandWarning: "#f0ad4e",
   brandDark: "#000",
-  brandLight: "#f4f4f4",
+  brandLight: "#fff",
 
   //Container
   containerBgColor: "#fff",
@@ -184,7 +184,7 @@ export default {
     return this.textColor;
   },
   get inputColorPlaceholder() {
-    return "#575757";
+    return "#fff";
   },
 
   // Line Height

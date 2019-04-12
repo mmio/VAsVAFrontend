@@ -1,8 +1,6 @@
 import React from "react";
-import { Button, View, Text } from 'react-native';
 import { createStackNavigator, createAppContainer } from "react-navigation";
-import Icon from 'react-native-vector-icons/FontAwesome';
-import LoginScreen from './LoginScreen.js'
+import LoginScreen from './screens/LoginScreen.js'
 
 
 
