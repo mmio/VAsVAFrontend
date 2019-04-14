@@ -81,7 +81,8 @@ export default class LoginScreen extends React.Component {
                     width: "90%",
                     backgroundColor: "#00000090",
                     padding: "5%",
-                    alignItems: "center"
+                    alignItems: "center",
+                    marginTop:"5%"
                   }}
                 >
                 <H2 style={{color:"#fff"}}>Lezecká stena X</H2>
@@ -112,7 +113,7 @@ export default class LoginScreen extends React.Component {
                       style={{color:"#fff"}}
                     />
                   </Item>
-                  <Button dark style={{alignSelf:"center"}}>
+                  <Button dark style={{alignSelf:"center"}} onPress={() => this.props.navigation.navigate("Home")}>
                     <Text>Prihlás!</Text>
                   </Button>
                 </Card>

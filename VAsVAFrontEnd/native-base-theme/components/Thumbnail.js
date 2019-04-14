@@ -33,6 +33,14 @@ export default (variables /*: * */ = variable) => {
         borderRadius: 0,
       },
     },
+    '.extra-large': {
+      width: 140,
+      height: 140,
+      borderRadius: 70,
+      '.square': {
+        borderRadius: 0,
+      },
+    },
     width: 56,
     height: 56,
     borderRadius: 28,
