@@ -82,7 +82,7 @@ export default class LoginScreen extends React.Component {
                     backgroundColor: "#00000090",
                     padding: "5%",
                     alignItems: "center",
-                    marginTop:"5%"
+                    marginVertical:"5%"
                   }}
                 >
                 <H2 style={{color:"#fff"}}>Lezecká stena X</H2>

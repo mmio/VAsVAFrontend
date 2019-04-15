@@ -12,9 +12,12 @@ import {
   Text,
   Thumbnail
 } from "native-base";
-import { ImageBackground } from "react-native";
+import { ImageBackground, View } from "react-native";
 import AppHeader from "../components/AppHeader.js";
 import { Col, Row, Grid } from "react-native-easy-grid";
+import { createIconSetFromFontello } from "react-native-vector-icons";
+import fontelloConfig from "../config.json";
+const CustomIcon = createIconSetFromFontello(fontelloConfig);
 
 const styles = {
   button: {
@@ -69,17 +72,28 @@ export default class HomeScreen extends React.Component {
                 }}
                 blurRadius={0.7}
               >
+                <View
+                  style={{
+                    backgroundColor: "rgba(0,0,0,0.65)",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0
+                  }}
+                />
                 <Grid style={{ margin: "2%" }}>
-                  <Row size={5} style={{ marginVertical: "1%" }}>
+                  <Row size={11} style={{ marginVertical: "1%" }}>
                     <Col style={{ marginRight: "2%" }}>
-                      <Button dark
+                      <Button
+                        dark
                         style={{
                           flex: 1,
                           flexDirection: "column",
                           alignItems: "center",
                           justifyContent: "center",
                           width: "100%",
-                          height: "100%",
+                          height: "100%"
                         }}
                       >
                         <Thumbnail
@@ -103,8 +117,20 @@ export default class HomeScreen extends React.Component {
                             backgroundColor: "#f1c40f"
                           }}
                         >
-                          <Text>BOULDER PROBLÉMY</Text>
-                          <Icon type="FontAwesome5" name="hand-rock" />
+                          <Text
+                            style={{
+                              textAlign: "center",
+                              fontSize: 16,
+                              color: "#232B2B"
+                            }}
+                          >
+                            BOULDER PROBLÉMY
+                          </Text>
+                          <Icon
+                            type="FontAwesome5"
+                            name="hand-rock"
+                            style={{ fontSize: 50, color: "#232B2B" }}
+                          />
                         </Button>
                       </Row>
                       <Row style={{ marginTop: "3%" }}>
@@ -112,21 +138,22 @@ export default class HomeScreen extends React.Component {
                           style={{
                             flex: 1,
                             flexDirection: "column",
-                            alignItems: "center",
                             justifyContent: "center",
                             width: "100%",
                             height: "100%",
                             backgroundColor: "#2980b9"
                           }}
                         >
-                          <Text>PROBLÉMY NA STENE</Text>
-                          <Icon type="FontAwesome5" name="hand-rock" />
+                          <CustomIcon name="climber" size={60} color="white" />
+                          <Text style={{ textAlign: "center", fontSize: 16 }}>
+                            PROBLÉMY NA STENE
+                          </Text>
                         </Button>
                       </Row>
                     </Col>
                   </Row>
-                  <Row size={3} style={{ marginVertical: "1%" }}>
-                    <Col size={1} style={{ marginRight: "2%" }}>
+                  <Row size={5} style={{ marginVertical: "1%" }}>
+                    <Col size={2} style={{ marginRight: "2%" }}>
                       <Button
                         style={{
                           flex: 1,
@@ -138,8 +165,12 @@ export default class HomeScreen extends React.Component {
                           backgroundColor: "#2980b9"
                         }}
                       >
-                        <Text>MAPA</Text>
-                        <Icon type="FontAwesome5" name="hand-rock" />
+                        <Text style={{ fontSize: 20 }}>MAPA</Text>
+                        <Icon
+                          type="FontAwesome5"
+                          name="map-marked-alt"
+                          style={{ fontSize: 45 }}
+                        />
                       </Button>
                     </Col>
                     <Col size={3} style={{ marginLeft: "2%" }}>
@@ -154,24 +185,29 @@ export default class HomeScreen extends React.Component {
                           backgroundColor: "#d35400"
                         }}
                       >
-                        <Text>Boulder problémy</Text>
-                        <Icon type="FontAwesome5" name="hand-rock" />
+                        <Icon
+                          type="FontAwesome"
+                          name="qrcode"
+                          style={{ fontSize: 60, color: "#232B2B" }}
+                        />
+                        <Text style={{ color: "#232B2B" }}>SKENUJ QR KÓD</Text>
                       </Button>
                     </Col>
                   </Row>
-                  <Row size={2} style={{ marginVertical: "1%" }}>
-                    <Button dark
+                  <Row size={4} style={{ marginVertical: "1%" }}>
+                    <Button
+                      dark
                       style={{
                         flex: 1,
                         flexDirection: "row",
                         alignItems: "center",
                         justifyContent: "center",
                         width: "100%",
-                        height: "100%",
+                        height: "100%"
                       }}
                     >
                       <Icon type="FontAwesome5" name="bars" />
-                      <Text style={{fontSize:26}}>REBRÍČEK</Text>
+                      <Text style={{ fontSize: 26 }}>REBRÍČEK</Text>
                     </Button>
                   </Row>
                 </Grid>
