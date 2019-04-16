@@ -12,9 +12,10 @@ import {
   Tab,
   Tabs,
   TabHeading,
-  Input
+  List,
+  ListItem
 } from "native-base";
-import { Dimensions, ImageBackground, View } from "react-native";
+import { Dimensions, ImageBackground, View, CheckBox } from "react-native";
 import AppHeader from "../components/AppHeader.js";
 import LinearGradient from "react-native-linear-gradient";
 import { ScrollView } from "react-native-gesture-handler";
@@ -32,6 +33,12 @@ const styles = {
 const win = Dimensions.get("window");
 
 export default class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showFinishedProblems: false
+    };
+  }
   closeDrawer() {
     this.drawer._root.close();
   }
@@ -62,6 +69,7 @@ export default class HomeScreen extends React.Component {
             />
             <Content
               contentContainerStyle={{
+                flex: 1,
                 heigth: "100%",
                 width: "100%",
                 backgroundColor: material.brandDark
@@ -105,66 +113,106 @@ export default class HomeScreen extends React.Component {
                 >
                   Boooooulder4lyfe
                 </Text>
-                <Icon
-                  style={{ color: material.brandLight, alignSelf: "flex-end" }}
-                  type="FontAwesome"
-                  name="edit"
-                />
               </ImageBackground>
-              <Text>Marha</Text>
-
-              <Text>Marha</Text>
-
-              <Text>Marha</Text>
-
-              <Tabs style={{ margin: "2%" }}>
+              <Tabs
+                style={{
+                  flex: 1,
+                  height: "100%",
+                  width: "100%"
+                }}
+              >
                 <Tab
                   heading={
                     <TabHeading>
-                      <Icon name="camera" />
-                      <Text>Camera</Text>
+                      <Text>Osobné údaje</Text>
                     </TabHeading>
                   }
+                  style={{ flex: 1, height: "100%", width: "100%" }}
                 >
-                  <ScrollView style={{ height: 175 }} nestedScrollEnabled>
-                    <Input />
-                    <Text>Marha</Text>
-
-                    <Text>Marha</Text>
-
-                    <Text>Marha</Text>
-
-                    <Text>Marha</Text>
-
-                    <Text>Marha</Text>
-
-                    <Text>Marha</Text>
-
-                    <Text>Marha</Text>
-
-                    <Text>Marha</Text>
-                    <Text>PANINI</Text>
-                    <Text>PANINI</Text>
-                    <Text>PAstafarini</Text>
+                  <ScrollView>
+                    <List>
+                      <ListItem>
+                        <Text>Meno: </Text>
+                        <Text>Pavol Šoltés</Text>
+                      </ListItem>
+                      <ListItem>
+                        <Text>Vek: </Text>
+                        <Text>21</Text>
+                      </ListItem>
+                      <ListItem>
+                        <Text>Pohlavie: </Text>
+                        <Text>Muž</Text>
+                      </ListItem>
+                      <ListItem>
+                        <Text>Najťažšia zlezená obtiažnosť: </Text>
+                        <Text>6a</Text>
+                      </ListItem>
+                      <ListItem>
+                        <Text>Kontakt: </Text>
+                        <Text>
+                          soltes.pavol@gmail, @PalinoBoy twitter alebo insta
+                          @PalinoBoooooi
+                        </Text>
+                      </ListItem>
+                    </List>
                   </ScrollView>
                 </Tab>
                 <Tab
                   heading={
                     <TabHeading>
-                      <Text>No Icon</Text>
+                      <Text style={{ textAlign: "center" }}>O mne</Text>
                     </TabHeading>
                   }
+                  style={{ flex: 1, height: "100%", width: "100%" }}
                 >
-                  <Text>Marha</Text>
+                  <ScrollView>
+                    <Text style={{ padding: "2%" }}>
+                      Som ciciak z ciciny a toto je moj pribeh. Numquam
+                      prodesset intellegam at vix. Sed elitr atomorum ad, eros
+                      pertinacia accommodare his id. Sumo noluisse his te. Sit
+                      ne illum discere tractatos, oblique invidunt cotidieque
+                      pro ut. Cum ad prima democritum. Som ciciak z ciciny a
+                      toto je moj pribeh. Numquam prodesset intellegam at vix.
+                      Sed elitr atomorum ad, eros pertinacia accommodare his id.
+                      Sumo noluisse his te. Sit ne illum discere tractatos,
+                      oblique invidunt cotidieque pro ut. Cum ad prima
+                      democritum.
+                    </Text>
+                  </ScrollView>
                 </Tab>
                 <Tab
                   heading={
                     <TabHeading>
-                      <Icon name="apps" />
+                      <Text style={{ textAlign: "center" }}>Moje problémy</Text>
                     </TabHeading>
                   }
                 >
-                  <Text>Marha</Text>
+                  <ScrollView>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        margin: "3%"
+                      }}
+                    >
+                      <Text>Zobrazuj dokončené problémy</Text>
+                      <CheckBox
+                        value={this.state.showFinishedProblems}
+                        onValueChange={() =>
+                          this.setState({
+                            showFinishedProblems: !this.state
+                              .showFinishedProblems
+                          })
+                        }
+                      />
+                    </View>
+                    <List>
+                      <ListItem>
+                        
+                      </ListItem>
+                    </List>
+                  </ScrollView>
                 </Tab>
               </Tabs>
             </Content>

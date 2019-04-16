@@ -229,19 +229,19 @@ export default {
   inverseSpinnerColor: "#1A191B",
 
   // Tab
-  tabDefaultBg: "#3F51B5",
+  tabDefaultBg: "#232B2B",
   topTabBarTextColor: "#b3c7f9",
   topTabBarActiveTextColor: "#fff",
   topTabBarBorderColor: "#fff",
   topTabBarActiveBorderColor: "#fff",
 
   // Tabs
-  tabBgColor: "#F8F8F8",
+  tabBgColor: "#232B2B",
   tabFontSize: 15,
 
   // Text
-  textColor: "#000",
-  inverseTextColor: "#fff",
+  textColor: "#ecf0f1",
+  inverseTextColor: "#ecf0f1",
   noteFontSize: 14,
   get defaultTextColor() {
     return this.textColor;
