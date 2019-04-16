@@ -17,6 +17,7 @@ import AppHeader from "../components/AppHeader.js";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { createIconSetFromFontello } from "react-native-vector-icons";
 import fontelloConfig from "../config.json";
+import TintedOpacity from "../components/TintedOpacity.js";
 const CustomIcon = createIconSetFromFontello(fontelloConfig);
 
 const styles = {
@@ -72,16 +73,7 @@ export default class HomeScreen extends React.Component {
                 }}
                 blurRadius={0.7}
               >
-                <View
-                  style={{
-                    backgroundColor: "rgba(0,0,0,0.65)",
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0
-                  }}
-                />
+               <TintedOpacity/>
                 <Grid style={{ margin: "2%" }}>
                   <Row size={11} style={{ marginVertical: "1%" }}>
                     <Col style={{ marginRight: "2%" }}>
@@ -95,6 +87,7 @@ export default class HomeScreen extends React.Component {
                           width: "100%",
                           height: "100%"
                         }}
+                        onPress={() => this.props.navigation.navigate("Profile")}
                       >
                         <Thumbnail
                           extra-large
