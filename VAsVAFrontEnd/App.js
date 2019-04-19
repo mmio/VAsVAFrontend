@@ -3,6 +3,7 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import LoginScreen from "./screens/LoginScreen.js";
 import HomeScreen from "./screens/HomeScreen.js";
 import ProfileScreen from "./screens/ProfileScreen.js";
+import BoulderProblemScreen from "./screens/BoulderProblemScreen.js";
 
 const AppNavigator = createStackNavigator(
   {
@@ -23,7 +24,13 @@ const AppNavigator = createStackNavigator(
       navigationOptions: {
         header: null
       }
-    }
+    },
+    Boulder: {
+      screen: BoulderProblemScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
   },
   {
     initialRouteName: "Profile"

@@ -31,7 +31,24 @@ const styles = {
   }
 };
 
-export default class HomeScreen extends React.Component {
+export default class BoulderProblemScreen extends React.Component {
+    constructor(props) {
+		super(props);
+		this.state = {problems: []};
+	}
+
+    componentDidMount() {
+        fetch('http://192.168.2.9:8080/Insult')
+                .then(result=> {
+                    //this.setState({problems: result.entity._embedded.problems});
+                    console.log(result);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+	}
+
+
   closeDrawer() {
     this.drawer._root.close();
   }
@@ -94,7 +111,7 @@ export default class HomeScreen extends React.Component {
                           source={require("../img/Palino.jpg")}
                           style={{ margin: "10%" }}
                         />
-                        <Text>Moj profil</Text>
+                        <Text>Moj profil {this.props.problems} </Text>
                       </Button>
                     </Col>
                     <Col style={{ marginLeft: "2%" }}>
@@ -109,7 +126,6 @@ export default class HomeScreen extends React.Component {
                             height: "100%",
                             backgroundColor: "#f1c40f"
                           }}
-                          onPress={() => this.props.navigation.navigate("Boulder")}
                         >
                           <Text
                             style={{
