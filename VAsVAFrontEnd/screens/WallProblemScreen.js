@@ -10,10 +10,7 @@ import {
   Button,
   Icon,
   Text,
-  Thumbnail,
-  List,
-  ListItem,
-  Item
+  Thumbnail
 } from "native-base";
 import { ImageBackground, View, FlatList} from "react-native";
 import AppHeader from "../components/AppHeader.js";
@@ -27,13 +24,14 @@ const styles = {
   button: {
     flex: 1,
     flexDirection: "column",
+    alignItems: "center",
     justifyContent: "center",
     width: "100%",
     height: "100%"
   }
 };
 
-export default class BoulderProblemScreen extends React.Component {
+export default class WallProblemScreen extends React.Component {
     constructor(props) {
 		super(props);
 		this.state = {problems: []};
@@ -64,23 +62,18 @@ export default class BoulderProblemScreen extends React.Component {
     const problems = this.state.problems;
 
     const boulderProblemList = problems
-    .filter(problem => problem.type === "boulder");
-//    .map((problem, index) =>
-//        <Item key={index}> {problem.name} </Item>
-//    );
+    .filter(problem => problem.type === "stena")
+    .map(problem =>
+        <View>
+            <Text>{problem.name}</Text>
+        </View>
+    );
 
     return (
         <View style={styles.container}>
-          <View>
-            <Text>Boulder problems</Text>
-
-
-
-            <FlatList
-                data={boulderProblemList}
-                renderItem={({item}) => <Text>{item.name}</Text>}
-            />
-
+          <View style={styles.footer}>
+            <View><Text>Problémy na stene</Text></View>
+            {boulderProblemList}
           </View>
         </View>
     );

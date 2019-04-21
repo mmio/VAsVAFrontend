@@ -10,10 +10,7 @@ import {
   Button,
   Icon,
   Text,
-  Thumbnail,
-  List,
-  ListItem,
-  Item
+  Thumbnail
 } from "native-base";
 import { ImageBackground, View, FlatList} from "react-native";
 import AppHeader from "../components/AppHeader.js";
@@ -27,25 +24,26 @@ const styles = {
   button: {
     flex: 1,
     flexDirection: "column",
+    alignItems: "center",
     justifyContent: "center",
     width: "100%",
     height: "100%"
   }
 };
 
-export default class BoulderProblemScreen extends React.Component {
+export default class HighscoreScreen extends React.Component {
     constructor(props) {
 		super(props);
-		this.state = {problems: []};
+		this.state = {climbers: []};
 	}
 
     componentDidMount() {
-        fetch('http://192.168.2.9:8080/Insult')
+        fetch('http://192.168.2.9:8080/climbers')
                 .then((response) =>
                     response.json()
                 )
-                .then((problems) => {
-                    this.setState({problems})
+                .then((climbers) => {
+                    this.setState({climbers})
                 })
                 .catch(err => {
                     console.log(err);
@@ -61,26 +59,20 @@ export default class BoulderProblemScreen extends React.Component {
   }
 
   render() {
-    const problems = this.state.problems;
+    const climbers = this.state.climbers;
 
-    const boulderProblemList = problems
-    .filter(problem => problem.type === "boulder");
-//    .map((problem, index) =>
-//        <Item key={index}> {problem.name} </Item>
-//    );
+    const climbersList = climbers
+    .map(climber =>
+        <View>
+            <Text>{climber.name}</Text>
+        </View>
+    );
 
     return (
         <View style={styles.container}>
-          <View>
-            <Text>Boulder problems</Text>
-
-
-
-            <FlatList
-                data={boulderProblemList}
-                renderItem={({item}) => <Text>{item.name}</Text>}
-            />
-
+          <View style={styles.footer}>
+            <View><Text>Highscore</Text></View>
+            {climbersList}
           </View>
         </View>
     );

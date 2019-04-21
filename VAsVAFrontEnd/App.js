@@ -4,6 +4,9 @@ import LoginScreen from "./screens/LoginScreen.js";
 import HomeScreen from "./screens/HomeScreen.js";
 import ProfileScreen from "./screens/ProfileScreen.js";
 import BoulderProblemScreen from "./screens/BoulderProblemScreen.js";
+import WallProblemScreen from "./screens/WallProblemScreen.js";
+import HighscoreScreen from "./screens/HighscoreScreen.js";
+import ProblemDetailsScreen from "./screens/ProblemDetailsScreen.js";
 
 const AppNavigator = createStackNavigator(
   {
@@ -31,6 +34,24 @@ const AppNavigator = createStackNavigator(
         header: null
       }
     },
+    Wall: {
+      screen: WallProblemScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Highscore: {
+      screen: HighscoreScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
+    ProblemDetails: {
+      screen: ProblemDetailsScreen,
+      navigationOptions: {
+        header: null
+      }
+    }
   },
   {
     initialRouteName: "Profile"

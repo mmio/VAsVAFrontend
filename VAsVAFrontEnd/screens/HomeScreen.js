@@ -137,6 +137,7 @@ export default class HomeScreen extends React.Component {
                             height: "100%",
                             backgroundColor: "#2980b9"
                           }}
+                          onPress={() => this.props.navigation.navigate("Wall")}
                         >
                           <CustomIcon name="climber" size={60} color="white" />
                           <Text style={{ textAlign: "center", fontSize: 16 }}>
@@ -199,6 +200,7 @@ export default class HomeScreen extends React.Component {
                         width: "100%",
                         height: "100%"
                       }}
+                      onPress={() => this.props.navigation.navigate("ProblemDetails", {id: 11})}
                     >
                       <Icon type="FontAwesome5" name="bars" />
                       <Text style={{ fontSize: 26 }}>REBRÍČEK</Text>
