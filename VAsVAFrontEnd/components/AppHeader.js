@@ -1,13 +1,12 @@
 import React from "react";
-import { Header, Body, Icon, Button, Right } from "native-base";
+import { Header, Icon, Button, Right } from "native-base";
 import { Image } from "react-native";
 
 export default class AppHeader extends React.Component {
   render() {
     return (
       <Header
-        style={{ backgroundColor: "#232B2B" }}
-        androidStatusBarColor="#232B2B"
+        style={{ backgroundColor: "#232B2B", borderBottomWidth:2, borderColor:"#e67e22" }}
       >
         <Button
           transparent

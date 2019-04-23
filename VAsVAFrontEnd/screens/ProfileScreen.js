@@ -14,21 +14,37 @@ import {
   TabHeading,
   List,
   ListItem,
-  Item
+  CardItem,
+  Textarea,
+  Button,
+  Item,
+  Label,
+  Input
 } from "native-base";
 import {
   Dimensions,
   ImageBackground,
   View,
   CheckBox,
-  FlatList
+  FlatList,
+  Image,
+  TouchableOpacity
 } from "react-native";
 import AppHeader from "../components/AppHeader.js";
 import LinearGradient from "react-native-linear-gradient";
 import { ScrollView } from "react-native-gesture-handler";
 import LoadingPage from "../components/LoadingPage.js";
+import PhotoGrid from "react-native-image-grid";
+import Modal from "react-native-modal";
+import AutoHeightImage from "react-native-auto-height-image";
+import { HideWithKeyboard } from "react-native-hide-with-keyboard";
 
 const win = Dimensions.get("window");
+const styles = {
+  item: {
+    marginVertical: 5
+  }
+};
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -36,7 +52,11 @@ export default class HomeScreen extends React.Component {
     this.state = {
       showFinishedProblems: false,
       user: {},
-      isLoading: true
+      isLoading: true,
+      tableRows: [],
+      imageSource: [],
+      openedImageSource: " ",
+      isEditing: false
     };
   }
   closeDrawer() {
@@ -52,20 +72,25 @@ export default class HomeScreen extends React.Component {
     fetch("http://192.168.1.150:8080/climber/" + id)
       .then(response => response.json())
       .then(responseJson => {
+        responseJson.myImages = responseJson.myImages.map((uri, index) => {
+          return { id: index, src: "http://192.168.1.150:8080/picture/" + uri };
+        });
         this.setState({
           user: responseJson,
-          isLoading: false
+          isLoading: false,
+          tableRows: responseJson.myProblems.filter(problem => {
+            return problem.finished === false;
+          }),
+          imageSource: responseJson.myImages
         });
+        console.warn(responseJson);
       })
       .catch(error => {
         console.warn(error);
       });
   }
 
-  finishProject(index) {
-    let updatedUser = this.state.user;
-    updatedUser.myProblems[index].finished = true;
-    this.setState({ user: updatedUser });
+  updateUser() {
     fetch("http://192.168.1.150:8080/climber/" + this.state.user.id, {
       method: "PUT",
       headers: {
@@ -76,11 +101,69 @@ export default class HomeScreen extends React.Component {
     });
   }
 
+  finishProject(index) {
+    let updatedUser = this.state.user;
+    updatedUser.myProblems[index].finished = true;
+    this.setState({ user: updatedUser });
+    this.updateUser();
+  }
+
+  changeAttempts(index, change) {
+    let updatedUser = this.state.user;
+    updatedUser.myProblems[index].attempts =
+      updatedUser.myProblems[index].attempts + change >= 0
+        ? updatedUser.myProblems[index].attempts + change
+        : 0;
+    this.setState({ user: updatedUser });
+    this.updateUser();
+  }
+
   applyFilterFinished() {
-    //get from backend filtered
+    if (!this.state.showFinishedProblems) {
+      this.setState({
+        showFinishedProblems: !this.state.showFinishedProblems,
+        tableRows: this.state.user.myProblems
+      });
+    } else {
+      this.setState({
+        showFinishedProblems: !this.state.showFinishedProblems,
+        tableRows: this.state.user.myProblems.filter(problem => {
+          return problem.finished === false;
+        })
+      });
+    }
+  }
+
+  deleteProblem(index) {
+    let updatedUser = this.state.user;
+    updatedUser.myProblems = updatedUser.myProblems.splice(index, 1);
+    this.setState({ user: updatedUser, tableRows: updatedUser.myProblems });
+    this.updateUser();
   }
 
   _keyExtractor = (item, index) => item.problem.id.toString();
+
+  renderImageThumbnail(item, itemSize, itemPaddingHorizontal) {
+    return (
+      <TouchableOpacity
+        key={item.id}
+        style={{
+          width: itemSize,
+          height: itemSize,
+          paddingHorizontal: itemPaddingHorizontal
+        }}
+        onPress={() => {
+          this.setState({ openedImageSource: item.src });
+        }}
+      >
+        <Image
+          resizeMode="cover"
+          style={{ flex: 1 }}
+          source={{ uri: item.src }}
+        />
+      </TouchableOpacity>
+    );
+  }
 
   render() {
     return (
@@ -113,45 +196,47 @@ export default class HomeScreen extends React.Component {
                   backgroundColor: material.brandDark
                 }}
               >
-                <ImageBackground
-                  source={require("../img/Palino.jpg")}
-                  style={{
-                    height: win.height * 0.4,
-                    justifyContent: "flex-end"
-                  }}
-                >
-                  <LinearGradient
-                    colors={["transparent", material.brandDark]}
+                <HideWithKeyboard style={{ width: "100%", heigth: "100%" }}>
+                  <ImageBackground
+                    source={require("../img/Palino.jpg")}
                     style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0
-                    }}
-                    locations={[0.1, 1]}
-                  />
-                  <Text
-                    style={{
-                      color: material.brandLight,
-                      margin: "2%",
-                      marginBottom: 0,
-                      fontSize: 24
+                      height: win.height * 0.4,
+                      justifyContent: "flex-end"
                     }}
                   >
-                    {this.state.user.nickname}
-                  </Text>
-                  <Text
-                    style={{
-                      color: material.brandLight,
-                      margin: "2%",
-                      marginTop: 0,
-                      fontSize: 16
-                    }}
-                  >
-                    {this.state.user.status}
-                  </Text>
-                </ImageBackground>
+                    <LinearGradient
+                      colors={["transparent", material.brandDark]}
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0
+                      }}
+                      locations={[0.1, 1]}
+                    />
+                    <Text
+                      style={{
+                        color: material.brandLight,
+                        margin: "2%",
+                        marginBottom: 0,
+                        fontSize: 24
+                      }}
+                    >
+                      {this.state.user.nickname}
+                    </Text>
+                    <Text
+                      style={{
+                        color: material.brandLight,
+                        margin: "2%",
+                        marginTop: 0,
+                        fontSize: 16
+                      }}
+                    >
+                      {this.state.user.status}
+                    </Text>
+                  </ImageBackground>
+                </HideWithKeyboard>
                 <Tabs
                   style={{
                     flex: 1,
@@ -167,45 +252,204 @@ export default class HomeScreen extends React.Component {
                     }
                     style={{ flex: 1, height: "100%", width: "100%" }}
                   >
-                    <ScrollView>
-                      <List>
-                        <ListItem>
-                          <Text>Meno: </Text>
-                          <Text>{this.state.user.name}</Text>
-                        </ListItem>
-                        <ListItem>
-                          <Text>Vek: </Text>
-                          <Text>{this.state.user.age}</Text>
-                        </ListItem>
-                        <ListItem>
-                          <Text>Pohlavie: </Text>
-                          <Text>
-                            {this.state.user.sex == "M" ? "Muž" : "Žena"}
-                          </Text>
-                        </ListItem>
-                        <ListItem>
-                          <Text>Najťažšia zlezená obtiažnosť: </Text>
-                          <Text>{this.state.user.grade}</Text>
-                        </ListItem>
-                        <ListItem>
-                          <Text>Kontakt: </Text>
-                          <Text>{this.state.user.contact}</Text>
-                        </ListItem>
-                      </List>
-                    </ScrollView>
+                    {this.state.isEditing ? (
+                      <ScrollView>
+                        <Item floatingLabel underline style={styles.item}>
+                          <Label>Meno</Label>
+                          <Input
+                            name="name"
+                            onChangeText={text =>
+                              this.setState(prevState => ({
+                                user: {
+                                  ...prevState.user,
+                                  name: text
+                                }
+                              }))
+                            }
+                            value={this.state.user.name}
+                            style={{ color: "#fff" }}
+                          />
+                        </Item>
+                        <Item floatingLabel underline style={styles.item}>
+                          <Label>Vek</Label>
+                          <Input
+                            name="age"
+                            onChangeText={text =>
+                              this.setState(prevState => ({
+                                user: {
+                                  ...prevState.user,
+                                  age: isNaN(parseInt(text, 10))
+                                    ? ""
+                                    : parseInt(text, 10)
+                                }
+                              }))
+                            }
+                            value={this.state.user.age.toString()}
+                            style={{ color: "#fff" }}
+                          />
+                        </Item>
+                        <View
+                          style={{
+                            flex: 1,
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            alignContent:"center",
+                            borderBottomColor: material.brandLight,
+                            borderBottomWidth: 1,
+                            height:50
+                          }}
+                        >
+                          <Text>MuZZZZ</Text>
+                          <CheckBox
+                            value={this.state.user.sex === "M"}
+                            onValueChange={text =>
+                              this.setState(prevState => ({
+                                user: {
+                                  ...prevState.user,
+                                  sex: "F"
+                                }
+                              }))
+                            }
+                          />
+                          <Text>Zenaaa</Text>
+                          <CheckBox
+                            value={this.state.user.sex === "F"}
+                            onValueChange={text =>
+                              this.setState(prevState => ({
+                                user: {
+                                  ...prevState.user,
+                                  sex: "F"
+                                }
+                              }))
+                            }
+                          />
+                        </View>
+                        <Item floatingLabel underline style={styles.item}>
+                          <Label>Najťažšia zlezená obtiažnosť</Label>
+                          <Input
+                            name="grade"
+                            onChangeText={text =>
+                              this.setState(prevState => ({
+                                user: {
+                                  ...prevState.user,
+                                  grade: text
+                                }
+                              }))
+                            }
+                            value={this.state.user.grade}
+                            style={{ color: "#fff" }}
+                          />
+                        </Item>
+                        <Item floatingLabel underline style={styles.item}>
+                          <Label>Kontakt</Label>
+                          <Input
+                            name="contact"
+                            onChangeText={text =>
+                              this.setState(prevState => ({
+                                user: {
+                                  ...prevState.user,
+                                  contact: text
+                                }
+                              }))
+                            }
+                            value={this.state.user.contact}
+                            style={{ color: "#fff" }}
+                          />
+                        </Item>
+                        <Item floatingLabel underline style={styles.item}>
+                          <Label>O mne</Label>
+                          <Textarea
+                            rowSpan={5}
+                            onChangeText={text =>
+                              this.setState(prevState => ({
+                                user: {
+                                  ...prevState.user,
+                                  name: text
+                                }
+                              }))
+                            }
+                            value={this.state.user.bio}
+                          />
+                        </Item>
+                        <Button
+                          dark
+                          style={{ alignSelf: "center" }}
+                          onPress={() => this.setState({ isEditing: false })}
+                        >
+                          <Text>Ulož zmeny</Text>
+                        </Button>
+                      </ScrollView>
+                    ) : (
+                      <ScrollView>
+                        <Button dark
+                          onPress={() => this.setState({ isEditing: true })}
+                          style={{ marginRight:15, marginTop:15, alignSelf:"center" }}
+                        >
+                          <Text>Uprav profil</Text>
+                        </Button>
+                        <List>
+                          <ListItem>
+                            <Text>Meno: </Text>
+                            <Text>{this.state.user.name}</Text>
+                          </ListItem>
+                          <ListItem>
+                            <Text>Vek: </Text>
+                            <Text>{this.state.user.age}</Text>
+                          </ListItem>
+                          <ListItem>
+                            <Text>Pohlavie: </Text>
+                            <Text>
+                              {this.state.user.sex == "M" ? "Muž" : "Žena"}
+                            </Text>
+                          </ListItem>
+                          <ListItem>
+                            <Text>Najťažšia zlezená obtiažnosť: </Text>
+                            <Text>{this.state.user.grade}</Text>
+                          </ListItem>
+                          <ListItem>
+                            <Text>Kontakt: </Text>
+                            <Text>{this.state.user.contact}</Text>
+                          </ListItem>
+                          <ListItem>
+                            <Text>O mne: </Text>
+                            <Text>{this.state.user.bio}</Text>
+                          </ListItem>
+                        </List>
+                      </ScrollView>
+                    )}
                   </Tab>
                   <Tab
                     heading={
                       <TabHeading>
-                        <Text style={{ textAlign: "center" }}>O mne</Text>
+                        <Text style={{ textAlign: "center" }}>Moje fotky</Text>
                       </TabHeading>
                     }
                     style={{ flex: 1, height: "100%", width: "100%" }}
                   >
                     <ScrollView>
-                      <Text style={{ padding: "2%" }}>
-                        {this.state.user.bio}
-                      </Text>
+                      <PhotoGrid
+                        data={this.state.imageSource}
+                        itemsPerRow={2}
+                        itemMargin={1}
+                        itemPaddingHorizontal={1}
+                        renderItem={this.renderImageThumbnail.bind(this)}
+                      />
+                      <Modal
+                        isVisible={this.state.openedImageSource != " "}
+                        onSwipeComplete={() =>
+                          this.setState({ openedImageSource: " " })
+                        }
+                        onBackdropPress={() =>
+                          this.setState({ openedImageSource: " " })
+                        }
+                        swipeDirection="left"
+                        style={{ flex: 1 }}
+                      >
+                        <AutoHeightImage
+                          source={{ uri: this.state.openedImageSource }}
+                          width={win.width}
+                        />
+                      </Modal>
                     </ScrollView>
                   </Tab>
                   <Tab
@@ -234,81 +478,127 @@ export default class HomeScreen extends React.Component {
                       </View>
                       <FlatList
                         extraData={this.state}
-                        data={this.state.user.myProblems}
+                        data={this.state.tableRows}
                         keyExtractor={this._keyExtractor}
                         renderItem={({ item, index }) => (
                           <View>
                             {item.finished ? (
-                              <Item
+                              <CardItem
+                                button
                                 style={{
                                   backgroundColor: "#2ecc71",
                                   flexDirection: "row",
                                   justifyContent: "space-between",
                                   flex: 1,
                                   padding: "3%",
-                                  alignContent: "center"
+                                  alignContent: "center",
+                                  borderColor: material.brandDark,
+                                  borderBottomWidth: 2
                                 }}
                               >
-                                <Text
-                                  style={{
-                                    color: material.brandLight,
-                                    width: "60%"
-                                  }}
-                                >
-                                  {item.problem.name}
-                                </Text>
-                                <Text style={{ color: material.brandLight }}>
-                                  {item.problem.grade}
-                                </Text>
-                                <Text style={{ color: material.brandLight }}>
-                                  {item.problem.sector}
-                                </Text>
                                 <View
                                   style={{
+                                    justifyContent: "space-between",
                                     flexDirection: "row",
-                                    justifyContent: "flex-end",
-                                    width: 50,
-                                    paddingLeft: "2%"
+                                    width: "40%"
                                   }}
                                 >
-                                  <Icon
-                                    style={{ color: material.brandLight }}
-                                    type="FontAwesome5"
-                                    name="trash-alt"
-                                  />
+                                  <Text
+                                    style={{
+                                      color: material.brandLight
+                                    }}
+                                  >
+                                    {index + 1}.
+                                  </Text>
+                                  <Text style={{ color: material.brandLight }}>
+                                    {item.problem.grade}
+                                  </Text>
+                                  <Text style={{ color: material.brandLight }}>
+                                    {item.problem.sector}
+                                  </Text>
                                 </View>
-                              </Item>
+                              </CardItem>
                             ) : (
-                              <Item
+                              <CardItem
+                                button
                                 style={{
                                   backgroundColor: material.brandLight,
                                   flexDirection: "row",
                                   justifyContent: "space-between",
                                   flex: 1,
                                   padding: "3%",
-                                  alignContent: "center"
+                                  alignContent: "center",
+                                  borderColor: material.brandDark,
+                                  borderBottomWidth: 2
                                 }}
                               >
-                                <Text
+                                <View
                                   style={{
-                                    color: material.brandDark,
-                                    width: "55%"
+                                    justifyContent: "space-between",
+                                    flexDirection: "row",
+                                    width: "40%"
                                   }}
                                 >
-                                  {item.problem.name}
-                                </Text>
-                                <Text style={{ color: material.brandDark }}>
-                                  {item.problem.grade}
-                                </Text>
-                                <Text style={{ color: material.brandDark }}>
-                                  {item.problem.sector}
-                                </Text>
+                                  <Text
+                                    style={{
+                                      color: material.brandDark
+                                    }}
+                                  >
+                                    {index + 1}.
+                                  </Text>
+                                  <Text style={{ color: material.brandDark }}>
+                                    {item.problem.grade}
+                                  </Text>
+                                  <Text style={{ color: material.brandDark }}>
+                                    {item.problem.sector}
+                                  </Text>
+                                </View>
+                                <View
+                                  style={{
+                                    justifyContent: "space-between",
+                                    flexDirection: "row",
+                                    width: "35%",
+                                    textAlign: "center"
+                                  }}
+                                >
+                                  <Icon
+                                    onPress={this.changeAttempts.bind(
+                                      this,
+                                      index,
+                                      -1
+                                    )}
+                                    style={{
+                                      color: material.brandDark,
+                                      paddingLeft: 10
+                                    }}
+                                    type="FontAwesome"
+                                    name="minus"
+                                  />
+                                  <Text
+                                    style={{
+                                      color: material.brandDark
+                                    }}
+                                  >
+                                    {item.attempts}
+                                  </Text>
+                                  <Icon
+                                    onPress={this.changeAttempts.bind(
+                                      this,
+                                      index,
+                                      1
+                                    )}
+                                    style={{
+                                      color: material.brandDark
+                                    }}
+                                    type="FontAwesome"
+                                    name="plus"
+                                  />
+                                </View>
                                 <View
                                   style={{
                                     flexDirection: "row",
                                     justifyContent: "flex-end",
-                                    width: 50,
-                                    paddingLeft: "2%"
+                                    width: "19%"
                                   }}
                                 >
                                   <Icon
@@ -321,12 +611,16 @@ export default class HomeScreen extends React.Component {
                                     name="check"
                                   />
                                   <Icon
+                                    onPress={this.deleteProblem.bind(
+                                      this,
+                                      index
+                                    )}
                                     style={{ color: material.brandDark }}
                                     type="FontAwesome5"
                                     name="trash-alt"
                                   />
                                 </View>
-                              </Item>
+                              </CardItem>
                             )}
                           </View>
                         )}
