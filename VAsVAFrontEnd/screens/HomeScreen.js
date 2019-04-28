@@ -200,7 +200,7 @@ export default class HomeScreen extends React.Component {
                         width: "100%",
                         height: "100%"
                       }}
-                      onPress={() => this.props.navigation.navigate("ProblemDetails", {id: 11})}
+                      onPress={() => this.props.navigation.navigate("Highscore")}
                     >
                       <Icon type="FontAwesome5" name="bars" />
                       <Text style={{ fontSize: 26 }}>REBRÍČEK</Text>
