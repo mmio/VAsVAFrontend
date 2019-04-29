@@ -39,7 +39,7 @@ export default class ProblemDetailsScreen extends React.Component {
         this.state = {};
     }
 
-    componentDidMount() {
+    componentWillMount() {
         fetch('http://192.168.2.9:8080/climbers')
             .then((response) =>
                 response.json()

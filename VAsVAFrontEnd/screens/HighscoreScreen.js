@@ -34,7 +34,7 @@ export default class HighscoreScreen extends React.Component {
         this.state = {climbers: []};
     }
 
-    componentDidMount() {
+    componentWillMount() {
         fetch('http://192.168.2.9:8080/climbers')
             .then((response) =>
                 response.json()
