@@ -33,19 +33,69 @@ const styles = StyleSheet.create({
     },
 });
 
+function FullList(props) {
+    return <FlatList
+                data={props.climbers}
+                renderItem={({item}) => <Text style={styles.item}>{item.name}</Text>}
+            />;
+}
+
+function EmptyList() {
+    return <FlatList
+                data={[
+                    {key: 'None', order: 1},
+                ]}
+                renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
+            />
+}
+
+function RenderFlatList(props) {
+    if (props.problem) {
+        if (props.problem.climbers) {
+            return <FullList climbers={props.problem.climbers} />;
+        } else {
+            return <EmptyList />;
+        }
+    } else {
+        return <EmptyList />;
+    }
+}
+
 export default class ProblemDetailsScreen extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {problems: []};
     }
 
     componentWillMount() {
-        fetch('http://192.168.2.9:8080/climbers')
+        fetch('http://10.0.2.2:8080/problems')
             .then((response) =>
                 response.json()
             )
-            .then((climbers) => {
-                this.setState({climbers})
+            .then((problems) => {
+                for (let problem of problems) {
+                    fetch('http://10.0.2.2:8080/climbers')
+                        .then((response) =>
+                            response.json()
+                        )
+                        .then(climbers => {
+                            let climbersForThisProblem = climbers.filter(climber => {
+                                return climber.myProblems.filter(myProblem => {
+                                    return myProblem.id.problemId === problem.id;
+                                }).length >= 1;
+                            });
+
+                            this.setState({
+                                problems: this.state.problems.concat({
+                                    id : problem.id,
+                                    climbers: climbersForThisProblem,
+                                })
+                            });
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
+                }
             })
             .catch(err => {
                 console.log(err);
@@ -61,7 +111,9 @@ export default class ProblemDetailsScreen extends React.Component {
     }
 
     render() {
-        const problem_id = this.props.navigation.getParam('id', 9);
+        const problem_id = this.props.navigation.getParam('id', 5);
+
+        //console.log(this.state.problems);
 
         return (
             <StyleProvider style={getTheme(material)}>
@@ -201,19 +253,7 @@ export default class ProblemDetailsScreen extends React.Component {
                                     </Row>
                                     <Row size={4}>
                                         <View style={styles.container}>
-                                            <FlatList
-                                                data={[
-                                                    {key: 'Devin', order: 1},
-                                                    {key: 'Jackson', order: 2},
-                                                    {key: 'James', order: 3},
-                                                    {key: 'Joel', order: 4},
-                                                    {key: 'John', order: 5},
-                                                    {key: 'Jillian', order: 6},
-                                                    {key: 'Jimmy', order: 7},
-                                                    {key: 'Julie', order: 8},
-                                                ]}
-                                                renderItem={({item}) => <Text style={styles.item}>{item.order}.{item.key}</Text>}
-                                            />
+                                            <RenderFlatList problem={this.state.problems[problem_id]} />
                                         </View>
                                     </Row>
                                 </Grid>

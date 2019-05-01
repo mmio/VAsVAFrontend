@@ -1,0 +1,1 @@
+export const server_ip = '10.10.10.61';

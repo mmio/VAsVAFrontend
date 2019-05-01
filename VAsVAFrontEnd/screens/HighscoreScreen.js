@@ -35,7 +35,7 @@ export default class HighscoreScreen extends React.Component {
     }
 
     componentWillMount() {
-        fetch('http://192.168.2.9:8080/climbers')
+        fetch('http://10.0.2.2:8080/climbers')
             .then((response) =>
                 response.json()
             )

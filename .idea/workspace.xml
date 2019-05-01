@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0558ffd6-6d4f-4122-aacb-ea841e86896b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/VAsVAFrontEnd/screens/props.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VAsVAFrontEnd/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/VAsVAFrontEnd/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VAsVAFrontEnd/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/VAsVAFrontEnd/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VAsVAFrontEnd/screens/BoulderProblemScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/VAsVAFrontEnd/screens/BoulderProblemScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VAsVAFrontEnd/screens/HighscoreScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/VAsVAFrontEnd/screens/HighscoreScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VAsVAFrontEnd/screens/ProblemDetailsScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/VAsVAFrontEnd/screens/ProblemDetailsScreen.js" afterDir="false" />
@@ -20,18 +23,6 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/App.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="748">
-              <caret line="42" column="13" selection-start-line="42" selection-start-column="4" selection-end-line="42" selection-end-column="13" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/HomeScreen.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="711">
@@ -48,8 +39,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/ProblemDetailsScreen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="41" column="22" selection-start-line="41" selection-start-column="4" selection-end-line="41" selection-end-column="22" />
+            <state relative-caret-position="264">
+              <caret line="42" column="40" selection-start-line="42" selection-start-column="40" selection-end-line="42" selection-end-column="40" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -58,10 +49,20 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/config.json">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/app.json">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/HighscoreScreen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="36" column="22" selection-start-line="36" selection-start-column="22" selection-end-line="36" selection-end-column="22" />
+            <state relative-caret-position="330">
+              <caret line="38" column="31" selection-start-line="38" selection-start-column="31" selection-end-line="38" selection-end-column="31" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -72,8 +73,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/BoulderProblemScreen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="36" column="22" selection-start-line="36" selection-start-column="22" selection-end-line="36" selection-end-column="22" />
+            <state relative-caret-position="330">
+              <caret line="39" column="43" selection-start-line="39" selection-start-column="15" selection-end-line="39" selection-end-column="43" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -81,11 +82,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/props.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="26" selection-start-column="26" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/WallProblemScreen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="36" column="22" selection-start-line="36" selection-start-column="22" selection-end-line="36" selection-end-column="22" />
+            <state relative-caret-position="294">
+              <caret line="37" column="43" selection-start-line="37" selection-start-column="43" selection-end-line="37" selection-end-column="43" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -96,8 +106,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/ProfileScreen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2464">
-              <caret line="161" column="22" selection-start-line="161" selection-start-column="22" selection-end-line="161" selection-end-column="22" />
+            <state relative-caret-position="4554">
+              <caret line="246" column="22" selection-start-line="246" selection-start-column="22" selection-end-line="246" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -123,17 +133,12 @@
         <option value="$PROJECT_DIR$/VAsVAFrontEnd/package.json" />
         <option value="$PROJECT_DIR$/VAsVAFrontEnd/App.js" />
         <option value="$PROJECT_DIR$/VAsVAFrontEnd/screens/HomeScreen.js" />
-        <option value="$PROJECT_DIR$/VAsVAFrontEnd/screens/ProblemDetailsScreen.js" />
+        <option value="$PROJECT_DIR$/VAsVAFrontEnd/screens/props" />
+        <option value="$PROJECT_DIR$/VAsVAFrontEnd/screens/props.js" />
         <option value="$PROJECT_DIR$/VAsVAFrontEnd/screens/BoulderProblemScreen.js" />
-        <option value="$PROJECT_DIR$/VAsVAFrontEnd/screens/HighscoreScreen.js" />
         <option value="$PROJECT_DIR$/VAsVAFrontEnd/screens/WallProblemScreen.js" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectConfigurationFiles">
-    <option name="files">
-      <list>
-        <option value="$PROJECT_DIR$/.idea/misc.xml" />
+        <option value="$PROJECT_DIR$/VAsVAFrontEnd/screens/HighscoreScreen.js" />
+        <option value="$PROJECT_DIR$/VAsVAFrontEnd/screens/ProblemDetailsScreen.js" />
       </list>
     </option>
   </component>
@@ -192,6 +197,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="android.sdk.path" value="$USER_HOME$/Android/Sdk" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -227,19 +233,20 @@
       <updated>1555688993950</updated>
       <workItem from="1556480549204" duration="8189000" />
       <workItem from="1556562597713" duration="71000" />
-      <workItem from="1556567044923" duration="386000" />
+      <workItem from="1556567044923" duration="3363000" />
+      <workItem from="1556713709434" duration="3306000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8646000" />
+    <option name="totallyTimeSpent" value="14929000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="17" y="55" width="1886" height="1008" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.28555977" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.34775555" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Image Layers" order="3" />
       <window_info id="Designer" order="4" />
@@ -251,7 +258,7 @@
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="TODO" order="1" />
       <window_info anchor="bottom" id="Terminal" order="2" />
-      <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" weight="0.40440324" />
+      <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" weight="0.40359282" />
       <window_info anchor="bottom" id="Logcat" order="4" />
       <window_info anchor="bottom" id="Android Profiler" order="5" show_stripe_button="false" />
       <window_info anchor="bottom" id="Docker" order="6" show_stripe_button="false" />
@@ -275,13 +282,7 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/LoginScreen.js" />
-    <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/app.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/babel.config.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/config.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/index.js">
@@ -313,20 +314,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/HighscoreScreen.js">
+    <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/app.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/config.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/ProfileScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="36" column="22" selection-start-line="36" selection-start-column="22" selection-end-line="36" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="4554">
+          <caret line="246" column="22" selection-start-line="246" selection-start-column="22" selection-end-line="246" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/BoulderProblemScreen.js">
+    <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/props.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="36" column="22" selection-start-line="36" selection-start-column="22" selection-end-line="36" selection-end-column="22" />
+        <state>
+          <caret column="26" selection-start-column="26" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/WallProblemScreen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="37" column="43" selection-start-line="37" selection-start-column="43" selection-end-line="37" selection-end-column="43" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
@@ -345,25 +356,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/ProblemDetailsScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="41" column="22" selection-start-line="41" selection-start-column="4" selection-end-line="41" selection-end-column="22" />
+        <state relative-caret-position="264">
+          <caret line="42" column="40" selection-start-line="42" selection-start-column="40" selection-end-line="42" selection-end-column="40" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/ProfileScreen.js">
+    <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/BoulderProblemScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2464">
-          <caret line="161" column="22" selection-start-line="161" selection-start-column="22" selection-end-line="161" selection-end-column="22" />
+        <state relative-caret-position="330">
+          <caret line="39" column="43" selection-start-line="39" selection-start-column="15" selection-end-line="39" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/WallProblemScreen.js">
+    <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/HighscoreScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="36" column="22" selection-start-line="36" selection-start-column="22" selection-end-line="36" selection-end-column="22" />
+        <state relative-caret-position="330">
+          <caret line="38" column="31" selection-start-line="38" selection-start-column="31" selection-end-line="38" selection-end-column="31" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>

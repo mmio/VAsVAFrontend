@@ -35,7 +35,7 @@ export default class WallProblemScreen extends React.Component {
     }
 
     componentWillMount() {
-        fetch('http://192.168.2.9:8080/Insult')
+        fetch('http://localhost:8080/Insult')
             .then((response) =>
                 response.json()
             )

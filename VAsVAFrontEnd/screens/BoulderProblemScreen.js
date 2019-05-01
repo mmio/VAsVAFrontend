@@ -14,6 +14,8 @@ import AppHeader from "../components/AppHeader.js";
 import {createIconSetFromFontello} from "react-native-vector-icons";
 import fontelloConfig from "../config.json";
 
+import server_ip from 'VAsVAFrontEnd/screens/props';
+
 const CustomIcon = createIconSetFromFontello(fontelloConfig);
 
 const styles = StyleSheet.create({
@@ -35,7 +37,7 @@ export default class BoulderProblemScreen extends React.Component {
     }
 
     componentWillMount() {
-        fetch('http://192.168.2.9:8080/Insult')
+        fetch('http://10.0.2.2:8080/Insult')
             .then((response) =>
                 response.json()
             )
