@@ -62,10 +62,13 @@ export default class HighscoreScreen extends React.Component {
             .map((climber, i) => {
                     return {
                         key: i,
-                        name: climber.name
+                        name: climber.name,
+                        problem_count: climber.myProblems.length,
+                        score: climber.myProblems.length * 100 + " bodov",
                     };
                 }
-            );
+            )
+            .sort((a, b) => a.score > b.score);
 
         return (
             <StyleProvider style={getTheme(material)}>
@@ -93,9 +96,9 @@ export default class HighscoreScreen extends React.Component {
                                     renderItem={({item}) =>
                                         <ListItem
                                             key={item.key}
-                                            leftAvatar={{source: {uri: "img_here"}}}
+                                            leftAvatar={{source: require("../img/Palino.jpg")}}
                                             title={item.name}
-                                            subtitle={item.name}
+                                            subtitle={item.score}
                                             onPress={() => this.props.navigation.navigate("Wall")}
                                         />
                                     }

@@ -35,7 +35,7 @@ export default class WallProblemScreen extends React.Component {
     }
 
     componentWillMount() {
-        fetch('http://localhost:8080/Insult')
+        fetch('http://10.0.2.2:8080/Insult')
             .then((response) =>
                 response.json()
             )
@@ -64,7 +64,7 @@ export default class WallProblemScreen extends React.Component {
                     return {
                         key: problem.id,
                         name: problem.name,
-                        type: "boulder"
+                        type: "stena"
                     };
                 }
             );
