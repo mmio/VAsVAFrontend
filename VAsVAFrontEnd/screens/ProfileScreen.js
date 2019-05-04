@@ -38,6 +38,8 @@ import PhotoGrid from "react-native-image-grid";
 import Modal from "react-native-modal";
 import AutoHeightImage from "react-native-auto-height-image";
 import { HideWithKeyboard } from "react-native-hide-with-keyboard";
+import axios from "../components/axios-instance.js";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const win = Dimensions.get("window");
 const styles = {
@@ -67,26 +69,32 @@ export default class HomeScreen extends React.Component {
     this.drawer._root.open();
   }
 
-  componentDidMount() {
-    const id = 16;
-    fetch("http://192.168.1.150:8080/climber/" + id)
-      .then(response => response.json())
+  async componentDidMount() {
+    let id;
+    let token;
+    try {
+      id = 16; //await AsyncStorage.getItem("id");
+    } catch (err) {
+      console.warn(err.message);
+    }
+    axios
+      .get("http://192.168.1.150:8080/climber/" + id)
       .then(responseJson => {
-        responseJson.myImages = responseJson.myImages.map((uri, index) => {
+        console.warn(responseJson);
+        responseJson.data.myImages = responseJson.data.myImages.map((uri, index) => {
           return { id: index, src: "http://192.168.1.150:8080/picture/" + uri };
         });
         this.setState({
-          user: responseJson,
+          user: responseJson.data,
           isLoading: false,
-          tableRows: responseJson.myProblems.filter(problem => {
+          tableRows: responseJson.data.myProblems.filter(problem => {
             return problem.finished === false;
           }),
-          imageSource: responseJson.myImages
+          imageSource: responseJson.data.myImages
         });
-        console.warn(responseJson);
       })
       .catch(error => {
-        console.warn(error);
+        console.warn("user details: " + error.message);
       });
   }
 
@@ -293,10 +301,10 @@ export default class HomeScreen extends React.Component {
                             flex: 1,
                             flexDirection: "row",
                             justifyContent: "space-between",
-                            alignContent:"center",
+                            alignContent: "center",
                             borderBottomColor: material.brandLight,
                             borderBottomWidth: 1,
-                            height:50
+                            height: 50
                           }}
                         >
                           <Text>MuZZZZ</Text>
@@ -381,9 +389,14 @@ export default class HomeScreen extends React.Component {
                       </ScrollView>
                     ) : (
                       <ScrollView>
-                        <Button dark
+                        <Button
+                          dark
                           onPress={() => this.setState({ isEditing: true })}
-                          style={{ marginRight:15, marginTop:15, alignSelf:"center" }}
+                          style={{
+                            marginRight: 15,
+                            marginTop: 15,
+                            alignSelf: "center"
+                          }}
                         >
                           <Text>Uprav profil</Text>
                         </Button>
