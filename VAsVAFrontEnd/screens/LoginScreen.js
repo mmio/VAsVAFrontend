@@ -60,7 +60,7 @@ export default class LoginScreen extends React.Component {
           await AsyncStorage.setItem("access_token", res.data.access_token)
           await AsyncStorage.setItem("refresh_token", res.data.refresh_token);
           await AsyncStorage.setItem("id", JSON.stringify(res.data.id));
-          //axios.defaults.headers.common["Authorization"] =
+          axios.defaults.headers.common["Authorization"] =
                 "Bearer " + res.data.access_token;
           this.props.navigation.navigate("Home");
         }catch(err)
