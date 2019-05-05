@@ -18,7 +18,7 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 import { createIconSetFromFontello } from "react-native-vector-icons";
 import fontelloConfig from "../config.json";
 import TintedOpacity from "../components/TintedOpacity";
-
+import axios from "../components/axios-instance.js";
 import { endpoint } from "./props";
 
 const CustomIcon = createIconSetFromFontello(fontelloConfig);
@@ -71,9 +71,10 @@ export default class ProblemDetailsScreen extends React.Component {
   }
 
   componentWillMount() {
-    fetch(`${endpoint}/problems`)
+    axios
+    .get(`${endpoint}/problems`)
       .then((response) =>
-        response.json()
+        response.data
       )
       .then((problems) => {
         for (let problem of problems) {
@@ -96,9 +97,10 @@ export default class ProblemDetailsScreen extends React.Component {
       .then((problems) => {
         let order = 0;
         for (let problem of problems) {
-          fetch(`${endpoint}/climbers`)
+          axios
+          .get(`${endpoint}/climbers`)
             .then(response =>
-              response.json()
+              response.data
             )
             .then(climbers => {
               const climbersForThisProblem = climbers

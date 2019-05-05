@@ -13,8 +13,8 @@ import {View, FlatList, StyleSheet} from "react-native";
 import AppHeader from "../components/AppHeader.js";
 import {createIconSetFromFontello} from "react-native-vector-icons";
 import fontelloConfig from "../config.json";
-
-import server_ip from 'VAsVAFrontEnd/screens/props';
+import axios from "../components/axios-instance.js";
+import { endpoint } from "./props";
 
 const CustomIcon = createIconSetFromFontello(fontelloConfig);
 
@@ -37,10 +37,11 @@ export default class BoulderProblemScreen extends React.Component {
     }
 
     componentWillMount() {
-        fetch('http://10.0.2.2:8080/problems')
+      axios
+        .get(`${endpoint}/problems`)
             .then((response) =>
-                  response.json()
-		 )
+                  response.data
+            )
             .then((problems) => {
                 this.setState({problems})
             })

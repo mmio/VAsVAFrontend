@@ -13,6 +13,10 @@ import {FlatList, StyleSheet, View} from "react-native";
 import AppHeader from "../components/AppHeader.js";
 import {createIconSetFromFontello} from "react-native-vector-icons";
 import fontelloConfig from "../config.json";
+import { endpoint } from "./props";
+import axios from "../components/axios-instance.js";
+
+import axiosInstance from '../components/axios-instance.js';
 
 const CustomIcon = createIconSetFromFontello(fontelloConfig);
 
@@ -35,9 +39,10 @@ export default class HighscoreScreen extends React.Component {
     }
 
     componentWillMount() {
-        fetch('http://10.0.2.2:8080/climbers')
+        axios
+        .get(`${endpoint}/climbers`)
             .then((response) =>
-                response.json()
+                response.data
             )
             .then((climbers) => {
                 this.setState({climbers})

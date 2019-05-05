@@ -39,6 +39,8 @@ import Modal from "react-native-modal";
 import AutoHeightImage from "react-native-auto-height-image";
 import { HideWithKeyboard } from "react-native-hide-with-keyboard";
 import axios from "../components/axios-instance.js";
+import { endpoint } from "./props";
+
 import AsyncStorage from "@react-native-community/async-storage";
 
 const win = Dimensions.get("window");
@@ -73,16 +75,16 @@ export default class HomeScreen extends React.Component {
     let id;
     let token;
     try {
-      id = 16; //await AsyncStorage.getItem("id");
+      id = await AsyncStorage.getItem("id");
     } catch (err) {
       console.warn(err.message);
     }
     axios
-      .get("http://192.168.1.150:8080/climber/" + id)
+      .get(`${endpoint}/climber/${id}`)
       .then(responseJson => {
         console.warn(responseJson);
         responseJson.data.myImages = responseJson.data.myImages.map((uri, index) => {
-          return { id: index, src: "http://192.168.1.150:8080/picture/" + uri };
+          return { id: index, src: `${endpoint}/picture/${uri}`};
         });
         this.setState({
           user: responseJson.data,
@@ -99,7 +101,7 @@ export default class HomeScreen extends React.Component {
   }
 
   updateUser() {
-    fetch("http://192.168.1.150:8080/climber/" + this.state.user.id, {
+    fetch(`${endpoint}/climber/${this.state.user.id}`, {
       method: "PUT",
       headers: {
         Accept: "application/json",

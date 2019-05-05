@@ -9,6 +9,7 @@ import WallProblemScreen from "./screens/WallProblemScreen.js";
 import HighscoreScreen from "./screens/HighscoreScreen.js";
 import ProblemDetailsScreen from "./screens/ProblemDetailsScreen.js";
 import axios from "axios";
+import QrScreen from "./screens/QrScreen.js";
 
 const AppNavigator = createStackNavigator(
   {
@@ -53,10 +54,16 @@ const AppNavigator = createStackNavigator(
       navigationOptions: {
         header: null
       }
-    }
+    },
+    Qr: {
+      screen: QrScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
   },
   {
-    initialRouteName: "Login"
+    initialRouteName: "Profile"
   }
 );
 

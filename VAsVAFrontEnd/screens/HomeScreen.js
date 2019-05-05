@@ -179,6 +179,7 @@ export default class HomeScreen extends React.Component {
                           height: "100%",
                           backgroundColor: "#d35400"
                         }}
+                        onPress={() => this.props.navigation.navigate("Qr")}
                       >
                         <Icon
                           type="FontAwesome"

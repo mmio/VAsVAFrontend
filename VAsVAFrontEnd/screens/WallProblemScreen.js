@@ -13,6 +13,8 @@ import {View, FlatList, StyleSheet} from "react-native";
 import AppHeader from "../components/AppHeader.js";
 import {createIconSetFromFontello} from "react-native-vector-icons";
 import fontelloConfig from "../config.json";
+import axios from "../components/axios-instance.js";
+import { endpoint } from "./props";
 
 const CustomIcon = createIconSetFromFontello(fontelloConfig);
 
@@ -34,17 +36,16 @@ export default class WallProblemScreen extends React.Component {
         this.state = {problems: []};
     }
 
-    componentWillMount() {
-        fetch('http://10.0.2.2:8080/Insult')
-            .then((response) =>
-                response.json()
-            )
-            .then((problems) => {
-                this.setState({problems})
-            })
-            .catch(err => {
-                console.log(err);
-            });
+    componentDidMount() {
+        axios
+        .get(`${endpoint}/problems/`)
+        .then((problems) => {
+            console.log(problems.data);
+            this.setState({problems: problems.data})
+        })
+        .catch(err => {
+            console.warn("user details: " + err.message);
+        });
     }
 
     closeDrawer() {
