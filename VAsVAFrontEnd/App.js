@@ -3,10 +3,12 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import LoginScreen from "./screens/LoginScreen.js";
 import HomeScreen from "./screens/HomeScreen.js";
 import ProfileScreen from "./screens/ProfileScreen.js";
+
 import BoulderProblemScreen from "./screens/BoulderProblemScreen.js";
 import WallProblemScreen from "./screens/WallProblemScreen.js";
 import HighscoreScreen from "./screens/HighscoreScreen.js";
 import ProblemDetailsScreen from "./screens/ProblemDetailsScreen.js";
+import axios from "axios";
 
 const AppNavigator = createStackNavigator(
   {
@@ -54,7 +56,7 @@ const AppNavigator = createStackNavigator(
     }
   },
   {
-    initialRouteName: "Profile"
+    initialRouteName: "Login"
   }
 );
 
