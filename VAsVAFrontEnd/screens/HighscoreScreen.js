@@ -2,12 +2,13 @@ import React from 'react';
 import SideBar from "../components/SideBar.js";
 import getTheme from "../native-base-theme/components";
 import material from "../native-base-theme/variables/material";
-import {ListItem} from 'react-native-elements';
+import {ListItem, SearchBar} from 'react-native-elements';
 import {
     StyleProvider,
     Container,
     Content,
     Drawer,
+    List,
 } from "native-base";
 import {FlatList, StyleSheet, View} from "react-native";
 import AppHeader from "../components/AppHeader.js";
@@ -35,20 +36,48 @@ const styles = StyleSheet.create({
 export default class HighscoreScreen extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {climbers: []};
+        
+        this.state = {
+            loading: false,      
+            data: [],      
+            error: null,
+            search: "", 
+        };
+
+        this.arrayholder = [];
     }
 
-    componentWillMount() {
+    componentDidMount() {
+        this.setState({loading: true});
+
         axios
         .get(`${endpoint}/climbers`)
-            .then((response) =>
+            .then(response =>
                 response.data
             )
             .then((climbers) => {
-                this.setState({climbers})
+                const data = climbers.map((climber, i) => {
+                    return {
+                        key: i,
+                        name: climber.name,
+                        problem_count: climber.myProblems.length,
+                        score: climber.myProblems.length * i * 100 + " bodov",
+                    };
+                }).sort((a, b) => a.score < b.score);
+
+                this.setState({
+                    data: data,   
+                    loading: false,
+                });
+
+                this.arrayholder = data;
             })
             .catch(err => {
                 console.log(err);
+                this.setState({
+                    error: err,
+                    loading: false,
+                });
             });
     }
 
@@ -60,21 +89,32 @@ export default class HighscoreScreen extends React.Component {
         this.drawer._root.open();
     }
 
+    searchFilterFunction = text => {
+        const newData = this.arrayholder
+            .filter(climber => {
+                return climber.name.indexOf(text) > -1;
+            });
+        
+        this.setState({
+            data: newData,
+            search: text,
+        });
+      };
+
+      renderSearch = () => {    
+        return (      
+          <SearchBar        
+            placeholder="Type Here..."        
+            lightTheme        
+            round        
+            onChangeText={text => this.searchFilterFunction(text)}
+            autoCorrect={false}
+            value={this.state.search}           
+          />    
+        );  
+      };
+
     render() {
-        const climbers = this.state.climbers;
-
-        const climbersList = climbers
-            .map((climber, i) => {
-                    return {
-                        key: i,
-                        name: climber.name,
-                        problem_count: climber.myProblems.length,
-                        score: climber.myProblems.length * 100 + " bodov",
-                    };
-                }
-            )
-            .sort((a, b) => a.score > b.score);
-
         return (
             <StyleProvider style={getTheme(material)}>
                 <Drawer
@@ -94,22 +134,21 @@ export default class HighscoreScreen extends React.Component {
                             openDrawer={() => this.openDrawer()}
                             navigation={this.props.navigation}
                         />
-                        <Content contentContainerStyle={{flex: 1, heigth: "100%", width: "100%"}}>
-                            <View style={styles.container}>
-                                <FlatList
-                                    data={climbersList}
-                                    renderItem={({item}) =>
-                                        <ListItem
-                                            key={item.key}
-                                            leftAvatar={{source: require("../img/Palino.jpg")}}
-                                            title={item.name}
-                                            subtitle={item.score}
-                                            onPress={() => this.props.navigation.navigate("Wall")}
-                                        />
-                                    }
-                                />
-                            </View>
-                        </Content>
+                        <List contentContainerStyle={{flex: 1, heigth: "100%", width: "100%"}}>
+                            <FlatList
+                                ListHeaderComponent={this.renderSearch}                       
+                                data={this.state.data}
+                                renderItem={({item}) =>
+                                    <ListItem
+                                        key={item.key}
+                                        leftAvatar={{source: require("../img/Palino.jpg")}}
+                                        title={item.name}
+                                        subtitle={item.score}
+                                        onPress={() => this.props.navigation.navigate("Wall")}
+                                    />
+                                }
+                            />
+                        </List>
                     </Container>
                 </Drawer>
             </StyleProvider>

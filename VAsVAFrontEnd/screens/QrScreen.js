@@ -22,8 +22,8 @@ export default class QrScreen extends Component {
   }
   onScan(qrvalue) {
     //called after te successful scanning of QRCode/Barcode
-    this.setState({ qrvalue: qrvalue });
-    console.log("SCANNED")
+    this.setState({ qrvalue });
+    console.log("SCANNED: ", qrvalue)
     // this.setState({ opneScanner: false });
   }
   onOpneScanner() {

@@ -15,6 +15,9 @@ import {createIconSetFromFontello} from "react-native-vector-icons";
 import fontelloConfig from "../config.json";
 import axios from "../components/axios-instance.js";
 import { endpoint } from "./props";
+import { Dropdown } from 'react-native-material-dropdown';
+import { Col, Row } from "react-native-easy-grid";
+import stringoflanguages from './lang';
 
 const CustomIcon = createIconSetFromFontello(fontelloConfig);
 
@@ -22,6 +25,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 22
+    },
+    drop: {
+      padding: 10,
     },
     item: {
         padding: 10,
@@ -58,6 +64,59 @@ export default class BoulderProblemScreen extends React.Component {
         this.drawer._root.open();
     }
 
+    filterSections(selection) {
+      console.log(selection);
+    }
+
+    filterGrades(selection) {
+      console.log(selection);
+    }
+
+    filterOverhangs(selection) {
+      console.log(selection);
+    }
+
+    renderFilters = () => {   
+      let sections = [{
+          value: 'A2',
+        }, {
+          value: 'C3',
+        },
+      ];
+
+      let data = [
+        {
+          value: 'w',
+        },
+      ];
+
+      return (
+        <View style={styles.drop}>
+          <Row>
+            <Col style={{ marginHorizontal: "1%" }}>
+              <Dropdown
+                label={stringoflanguages.grade}
+                data={data}
+              />
+            </Col>
+            <Col style={{ marginHorizontal: "1%" }}>
+              <Dropdown
+                label='Max Overhang'
+                data={data}
+              />
+            </Col>
+            <Col style={{ marginHorizontal: "1%" }}>
+              <Dropdown
+                label='Sector'
+                data={sections}
+                onChangeText={(selection) => this.filterSections(selection)}
+              />
+            </Col>
+          </Row>
+        </View>
+      );
+    };
+
     render() {
         const problems = this.state.problems;
 
@@ -70,7 +129,7 @@ export default class BoulderProblemScreen extends React.Component {
                       type: "boulder"
                   };
               }
-		  );
+        );
 
         return (
 	    <StyleProvider style={getTheme(material)}>
@@ -92,8 +151,10 @@ export default class BoulderProblemScreen extends React.Component {
                     navigation={this.props.navigation}
                   />
                   <Content contentContainerStyle={{flex: 1, heigth: "100%", width: "100%"}}>
-                    <View style={styles.container}>
+                    {/* <View style={styles.container}> */}
+                      
                       <FlatList
+                        ListHeaderComponent={this.renderFilters}
                         data={boulderProblemList}
                         renderItem={({item}) =>
                                     <ListItem
@@ -103,7 +164,7 @@ export default class BoulderProblemScreen extends React.Component {
                                       onPress={() => this.props.navigation.navigate("ProblemDetails", {id: item.key})}
                                     />}
                       />
-                    </View>
+                    {/* </View> */}
                   </Content>
                 </Container>
               </Drawer>

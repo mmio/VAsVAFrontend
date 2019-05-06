@@ -19,6 +19,7 @@ import { createIconSetFromFontello } from "react-native-vector-icons";
 import fontelloConfig from "../config.json";
 import TintedOpacity from "../components/TintedOpacity.js";
 const CustomIcon = createIconSetFromFontello(fontelloConfig);
+import stringoflanguages from './lang';
 
 const styles = {
   button: {
@@ -41,6 +42,7 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
+    stringoflanguages.setLanguage("sk");
     return (
       <StyleProvider style={getTheme(material)}>
         <Drawer
@@ -204,7 +206,7 @@ export default class HomeScreen extends React.Component {
                       onPress={() => this.props.navigation.navigate("Highscore")}
                     >
                       <Icon type="FontAwesome5" name="bars" />
-                      <Text style={{ fontSize: 26 }}>REBRÍČEK</Text>
+                      <Text style={{ fontSize: 26 }}>{stringoflanguages.highscores}</Text>
                     </Button>
                   </Row>
                 </Grid>
