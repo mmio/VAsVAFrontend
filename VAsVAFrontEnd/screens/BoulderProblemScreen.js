@@ -8,6 +8,8 @@ import {
     Container,
     Content,
     Drawer,
+    Button,
+    Text,
 } from "native-base";
 import {View, FlatList, StyleSheet} from "react-native";
 import AppHeader from "../components/AppHeader.js";
@@ -39,17 +41,39 @@ const styles = StyleSheet.create({
 export default class BoulderProblemScreen extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {problems: []};
+        this.state = {
+          problems: [],
+          grade: undefined,
+          maxOver: undefined,
+          sector: undefined,
+        };
+        this.arrayholder = [];
     }
 
-    componentWillMount() {
+    componentDidMount() {
       axios
         .get(`${endpoint}/problems`)
             .then((response) =>
                   response.data
             )
             .then((problems) => {
-                this.setState({problems})
+              const data = problems
+                    //.filter(problem => problem.type === "boulder")
+                    .map(problem => {
+                      console.log(problem);
+                        return {
+                            key: problem.id,
+                            name: problem.name,
+                            sector: problem.sector,
+                            grade: problem.grade,
+                            maxOver: problem.maximumOverhangDegree,
+                            type: "boulder"
+                        };
+                    }
+              );
+
+                this.setState({data})
+                this.arrayholder = data;
             })
             .catch(err => {
                 console.log(err);
@@ -64,29 +88,101 @@ export default class BoulderProblemScreen extends React.Component {
         this.drawer._root.open();
     }
 
-    filterSections(selection) {
-      console.log(selection);
+    filterAll() {
+      const newData = this.arrayholder
+      .filter(problem => {
+        console.log('sect',this.state.sector);
+        console.log('grd',this.state.grade);
+        console.log('max',this.state.maxOver);
+
+          return (
+            ((this.state.sector != undefined && this.state.sector != 'None')
+            ? (problem.sector === this.state.sector)
+            : true) &&
+
+            ((this.state.grade != undefined && this.state.grade != 'None')
+            ? (problem.grade === this.state.grade)
+            : true) &&
+
+            ((this.state.maxOver != undefined && this.state.maxOver != 'None')
+            ? (parseFloat(problem.maxOver) <= parseFloat(this.state.maxOver))
+            : true)
+          );
+      })
+          this.setState({
+            data: newData,
+          }, () => {console.log(this.state)});
+
     }
 
-    filterGrades(selection) {
-      console.log(selection);
+    filterSections(sector) {
+      this.setState({sector}, () => this.filterAll());
+
+      // const newData = this.arrayholder
+      //       .filter(problem => {
+      //         console.log(sector);
+      //         console.log(problem.sector);
+      //           return problem.sector == sector;
+      //       });
+        
+      //   this.setState({
+      //       data: newData,
+      //   });
     }
 
-    filterOverhangs(selection) {
-      console.log(selection);
+    filterGrades(grade) {
+      this.setState({grade}, () => this.filterAll());
+      // const newData = this.arrayholder
+      //       .filter(problem => {
+      //         console.log(grade);
+      //         console.log(problem.grade);
+      //           return problem.grade == grade;
+      //       });
+        
+      //   this.setState({
+      //       data: newData,
+      //   });
+    }
+
+    filterMaxOverhang(max) {
+      this.setState({maxOver: max}, () => this.filterAll());
+      // const newData = this.arrayholder
+      //       .filter(problem => {
+      //         console.log(max);
+      //         console.log(problem.maxOver);
+      //           return parseFloat(problem.maxOver) <= parseFloat(max);
+      //       });
+        
+      //   this.setState({
+      //       data: newData,
+      //   });
     }
 
     renderFilters = () => {   
-      let sections = [{
+      let sectors = [{
           value: 'A2',
         }, {
           value: 'C3',
+        }, {
+          value: 'None',
         },
       ];
 
-      let data = [
-        {
-          value: 'w',
+      let grades = [{
+          value: '6a',
+        }, {
+          value: '6-',
+        }, {
+          value: 'None',
+        },
+      ];
+
+      let max = [{
+          value: '5',
+        }, {
+          value: '40',
+        }, {
+          value: 'None',
         },
       ];
 
@@ -96,20 +192,25 @@ export default class BoulderProblemScreen extends React.Component {
             <Col style={{ marginHorizontal: "1%" }}>
               <Dropdown
                 label={stringoflanguages.grade}
-                data={data}
+                data={grades}
+                value='None'
+                onChangeText={(grade) => this.filterGrades(grade)}
               />
             </Col>
             <Col style={{ marginHorizontal: "1%" }}>
               <Dropdown
                 label='Max Overhang'
-                data={data}
+                value='None'
+                data={max}
+                onChangeText={(max) => this.filterMaxOverhang(max)}
               />
             </Col>
             <Col style={{ marginHorizontal: "1%" }}>
               <Dropdown
                 label='Sector'
-                data={sections}
-                onChangeText={(selection) => this.filterSections(selection)}
+                data={sectors}
+                value='None'
+                onChangeText={(sector) => this.filterSections(sector)}
               />
             </Col>
           </Row>
@@ -118,18 +219,18 @@ export default class BoulderProblemScreen extends React.Component {
     };
 
     render() {
-        const problems = this.state.problems;
+        // const problems = this.state.problems;
 
-        const boulderProblemList = problems
-              .filter(problem => problem.type === "boulder")
-              .map(problem => {
-                  return {
-                      key: problem.id,
-                      name: problem.name,
-                      type: "boulder"
-                  };
-              }
-        );
+        // const boulderProblemList = problems
+        //       .filter(problem => problem.type === "boulder")
+        //       .map(problem => {
+        //           return {
+        //               key: problem.id,
+        //               name: problem.name,
+        //               type: "boulder"
+        //           };
+        //       }
+        // );
 
         return (
 	    <StyleProvider style={getTheme(material)}>
@@ -155,7 +256,7 @@ export default class BoulderProblemScreen extends React.Component {
                       
                       <FlatList
                         ListHeaderComponent={this.renderFilters}
-                        data={boulderProblemList}
+                        data={this.state.data}
                         renderItem={({item}) =>
                                     <ListItem
                                       key={item.key}
