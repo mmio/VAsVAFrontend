@@ -43,6 +43,7 @@ export default class HomeScreen extends React.Component {
 
   render() {
     stringoflanguages.setLanguage("sk");
+    
     return (
       <StyleProvider style={getTheme(material)}>
         <Drawer

@@ -10,7 +10,8 @@ import {
   Button,
   Icon,
   Text,
-  Thumbnail
+  Thumbnail,
+  Label
 } from "native-base";
 import { ImageBackground, View, StyleSheet, FlatList } from "react-native";
 import AppHeader from "../components/AppHeader.js";
@@ -20,6 +21,7 @@ import fontelloConfig from "../config.json";
 import TintedOpacity from "../components/TintedOpacity";
 import axios from "../components/axios-instance.js";
 import { endpoint } from "./props";
+import { ScrollView } from "react-native-gesture-handler";
 
 const CustomIcon = createIconSetFromFontello(fontelloConfig);
 
@@ -33,12 +35,38 @@ const styles = StyleSheet.create({
     fontSize: 18,
     height: 44,
   },
+  label: {
+    color: material.brandLight,
+    margin: "2%",
+    marginBottom: 0,
+    fontSize: 10,
+  },
+  text : {
+    color: material.brandLight,
+    margin: "2%",
+    marginBottom: 0,
+    fontSize: 20,
+  }
 });
 
 function FullList(props) {
   return <FlatList
     data={props.climbers}
-    renderItem={({ item }) => <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
+    renderItem={({ item }) =>
+      <View>
+        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
+        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
+        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
+        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
+        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
+        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
+        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
+        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
+        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
+        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
+        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
+        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
+      </View>
     }
   />;
 }
@@ -87,7 +115,7 @@ export default class ProblemDetailsScreen extends React.Component {
               type: problem.type,
               grade: problem.grade,
               sector: problem.sector,
-              desc: 'No description',
+              desc: 'No description has been provided by the person who added this problem.',
             })
           });
         }
@@ -176,66 +204,71 @@ export default class ProblemDetailsScreen extends React.Component {
                 blurRadius={0.7}
               >
                 <TintedOpacity />
-                <Grid style={{ margin: "2%" }}>
-                  <Row size={6} style={{ marginVertical: "1%" }}>
-                    <Col style={{ padding: "2%", marginRight: "2%", backgroundColor: "#333333" }}>
+                <ScrollView style={{ margin: "2%" }}>
+                  <Row>
+                      <Button
+                        dark
+                        style={{
+                          flex: 1,
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          width: "100%",
+                          height: "100%"
+                        }}
+                        onPress={() => this.props.navigation.navigate("Profile")}
+                      >
+                        <Thumbnail
+                          extra-large
+                          source={require("../img/logo.png")}
+                          style={{ margin: "10%" }}
+                        />
+                        <Text>Obrázok</Text>
+                      </Button>
+                    </Row>
+                    <Row size={6} style={{ marginVertical: "1%" }}>
+                      <Col style={{ padding: "2%", backgroundColor: "#333333" }}>
 
-                      <View>
-                        <Text>
-                          Name:{(found) ? this.state.problems.filter(p => p.id === problem_id)[0].name : "Loading..."}
-                        </Text>
-                      </View>
+                          <Label style={styles.label}>
+                            Name
+                          </Label>
+                          <Text style={styles.text}>
+                            {(found) ? this.state.problems.filter(p => p.id === problem_id)[0].name : "Loading..."}
+                          </Text>
 
-                      <View>
-                        <Text>
-                          Type: {(found) ? this.state.problems.filter(p => p.id === problem_id)[0].type : "Loading..."}
-                        </Text>
-                      </View>
+                          <Label style={styles.label}>
+                            Type
+                          </Label>
+                          <Text style={styles.text}>
+                            {(found) ? this.state.problems.filter(p => p.id === problem_id)[0].type : "Loading..."}
+                          </Text>
 
-                      <View>
-                        <Text>
-                          Grade: {(found) ? this.state.problems.filter(p => p.id === problem_id)[0].grade : "Loading..."}
-                        </Text>
-                      </View>
+                          <Label style={styles.label}>
+                            Grade
+                          </Label>
+                          <Text style={styles.text}>
+                            {(found) ? this.state.problems.filter(p => p.id === problem_id)[0].grade : "Loading..."}
+                          </Text>
 
-                      <View>
-                        <Text>
-                          Sector: {(found) ? this.state.problems.filter(p => p.id === problem_id)[0].sector : "Loading..."}
-                        </Text>
-                      </View>
+                          <Label style={styles.label}>
+                            Sector
+                          </Label>
+                          <Text style={styles.text}>
+                            {(found) ? this.state.problems.filter(p => p.id === problem_id)[0].sector : "Loading..."}
+                          </Text>
 
-                      <View>
-                        <Text>
-                          Description: {(found) ? this.state.problems.filter(p => p.id === problem_id)[0].desc : "Loading..."}
-                        </Text>
-                      </View>
+                          <Label style={styles.label}>
+                            Description
+                          </Label>
+                          <Text style={styles.text}>
+                            {(found) ? this.state.problems.filter(p => p.id === problem_id)[0].desc : "Loading..."}
+                          </Text>
 
-                    </Col>
-                    <Col style={{ marginLeft: "2%" }}>
-                      <Row size={7}>
-                        <Button
-                          dark
-                          style={{
-                            flex: 1,
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            width: "100%",
-                            height: "100%"
-                          }}
-                          onPress={() => this.props.navigation.navigate("Profile")}
-                        >
-                          <Thumbnail
-                            extra-large
-                            source={require("../img/logo.png")}
-                            style={{ margin: "10%" }}
-                          />
-                          <Text>Obrázok</Text>
-                        </Button>
-                      </Row>
-                      <Row size={2} style={{ marginVertical: "1%" }}>
-                        <Col style={{ marginRight: "1%" }}>
+                      </Col>
+                      {/* <Col style={{ marginLeft: "2%" }}>
+                        <Row size={7}>
                           <Button
+                            dark
                             style={{
                               flex: 1,
                               flexDirection: "column",
@@ -246,41 +279,63 @@ export default class ProblemDetailsScreen extends React.Component {
                             }}
                             onPress={() => this.props.navigation.navigate("Profile")}
                           >
-                            <Icon
-                              type="FontAwesome5"
-                              name="plus"
-                              style={{ fontSize: 25, color: "white" }}
+                            <Thumbnail
+                              extra-large
+                              source={require("../img/logo.png")}
+                              style={{ margin: "10%" }}
                             />
+                            <Text>Obrázok</Text>
                           </Button>
-                        </Col>
-                        <Col style={{ marginLeft: "1%" }}>
-                          <Button
-                            style={{
-                              flex: 1,
-                              flexDirection: "column",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              width: "100%",
-                              height: "100%"
-                            }}
-                            onPress={() => this.props.navigation.navigate("Profile")}
-                          >
-                            <Icon
-                              type="FontAwesome5"
-                              name="trash"
-                              style={{ fontSize: 25, color: "white" }}
-                            />
-                          </Button>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                  <Row size={4}>
-                    <View style={styles.container}>
-                      <RenderFlatList problem={this.state.problems.filter(p => p.id === problem_id)[0]} />
-                    </View>
-                  </Row>
-                </Grid>
+                        </Row>
+                        <Row size={2} style={{ marginVertical: "1%" }}>
+                          <Col style={{ marginRight: "1%" }}>
+                            <Button
+                              style={{
+                                flex: 1,
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                width: "100%",
+                                height: "100%"
+                              }}
+                              onPress={() => this.props.navigation.navigate("Profile")}
+                            >
+                              <Icon
+                                type="FontAwesome5"
+                                name="plus"
+                                style={{ fontSize: 25, color: "white" }}
+                              />
+                            </Button>
+                          </Col>
+                          <Col style={{ marginLeft: "1%" }}>
+                            <Button
+                              style={{
+                                flex: 1,
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                width: "100%",
+                                height: "100%"
+                              }}
+                              onPress={() => this.props.navigation.navigate("Profile")}
+                            >
+                              <Icon
+                                type="FontAwesome5"
+                                name="trash"
+                                style={{ fontSize: 25, color: "white" }}
+                              />
+                            </Button>
+                          </Col>
+                        </Row>
+                      </Col> */}
+                    </Row>
+                  
+                    <Row size={4}>
+                      <View style={styles.container}>
+                        <RenderFlatList problem={this.state.problems.filter(p => p.id === problem_id)[0]} />
+                      </View>
+                    </Row>
+                </ScrollView>
               </ImageBackground>
             </Content>
           </Container>

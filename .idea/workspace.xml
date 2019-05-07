@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0558ffd6-6d4f-4122-aacb-ea841e86896b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VAsVAFrontEnd/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/VAsVAFrontEnd/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VAsVAFrontEnd/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/VAsVAFrontEnd/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VAsVAFrontEnd/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/VAsVAFrontEnd/android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VAsVAFrontEnd/android/app/src/main/java/com/vasvafrontend/MainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/VAsVAFrontEnd/android/app/src/main/java/com/vasvafrontend/MainApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VAsVAFrontEnd/android/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/VAsVAFrontEnd/android/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VAsVAFrontEnd/ios/VAsVAFrontEnd.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/VAsVAFrontEnd/ios/VAsVAFrontEnd.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VAsVAFrontEnd/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/VAsVAFrontEnd/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VAsVAFrontEnd/screens/BoulderProblemScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/VAsVAFrontEnd/screens/BoulderProblemScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VAsVAFrontEnd/screens/HighscoreScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/VAsVAFrontEnd/screens/HighscoreScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VAsVAFrontEnd/screens/HomeScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/VAsVAFrontEnd/screens/HomeScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VAsVAFrontEnd/screens/ProblemDetailsScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/VAsVAFrontEnd/screens/ProblemDetailsScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VAsVAFrontEnd/screens/ProfileScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/VAsVAFrontEnd/screens/ProfileScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VAsVAFrontEnd/screens/WallProblemScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/VAsVAFrontEnd/screens/WallProblemScreen.js" afterDir="false" />
-    </list>
+    <list default="true" id="0558ffd6-6d4f-4122-aacb-ea841e86896b" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,8 +16,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/HomeScreen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3762">
-              <caret line="171" column="29" selection-start-line="171" selection-start-column="29" selection-end-line="171" selection-end-column="29" />
+            <state relative-caret-position="3806">
+              <caret line="173" column="29" selection-start-line="173" selection-start-column="29" selection-end-line="173" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -69,8 +53,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/HighscoreScreen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="836">
-              <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
+            <state relative-caret-position="1034">
+              <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -78,8 +62,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/BoulderProblemScreen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1144">
-              <caret line="52" column="19" selection-start-line="52" selection-start-column="19" selection-end-line="52" selection-end-column="19" />
+            <state relative-caret-position="1276">
+              <caret line="58" column="19" selection-start-line="58" selection-start-column="19" selection-end-line="58" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -143,16 +127,16 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="17" />
-    <option name="y" value="55" />
+    <option name="y" value="27" />
     <option name="width" value="1886" />
-    <option name="height" value="1008" />
+    <option name="height" value="1036" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -164,7 +148,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -193,6 +176,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -245,7 +229,7 @@
     <option name="totallyTimeSpent" value="15069000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="17" y="55" width="1886" height="1008" extended-state="0" />
+    <frame x="17" y="27" width="1886" height="1036" extended-state="0" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.34763476" />
@@ -318,8 +302,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/HomeScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3762">
-          <caret line="171" column="29" selection-start-line="171" selection-start-column="29" selection-end-line="171" selection-end-column="29" />
+        <state relative-caret-position="3806">
+          <caret line="173" column="29" selection-start-line="173" selection-start-column="29" selection-end-line="173" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -338,15 +322,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/HighscoreScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="836">
-          <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
+        <state relative-caret-position="1034">
+          <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/VAsVAFrontEnd/screens/BoulderProblemScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1144">
-          <caret line="52" column="19" selection-start-line="52" selection-start-column="19" selection-end-line="52" selection-end-column="19" />
+        <state relative-caret-position="1276">
+          <caret line="58" column="19" selection-start-line="58" selection-start-column="19" selection-end-line="58" selection-end-column="19" />
         </state>
       </provider>
     </entry>
