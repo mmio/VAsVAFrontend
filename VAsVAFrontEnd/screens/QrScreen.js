@@ -61,7 +61,7 @@ export default class QrScreen extends Component {
   render() {
     let displayModal;
     //If qrvalue is set then return this view
-    if (!this.state.opneScanner) {
+    if (false && !this.state.opneScanner) { // should never trigger
       return (
         <View style={styles.container}>
             <Text style={styles.heading}>React Native QR Code Example</Text>
