@@ -19,6 +19,8 @@ import { createIconSetFromFontello } from "react-native-vector-icons";
 import fontelloConfig from "../config.json";
 import TintedOpacity from "../components/TintedOpacity.js";
 const CustomIcon = createIconSetFromFontello(fontelloConfig);
+import Config from "react-native-config";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const styles = {
   button: {
@@ -32,12 +34,36 @@ const styles = {
 };
 
 export default class HomeScreen extends React.Component {
+  constructor()
+  {
+    super()
+    this.state = 
+    {
+      profilePicSource: " "
+    }
+  }
   closeDrawer() {
     this.drawer._root.close();
   }
 
   openDrawer() {
     this.drawer._root.open();
+  }
+
+  componentDidMount()
+  {
+    try{
+
+      AsyncStorage.getItem("profilePic").then(profilePicName =>{
+        this.setState({
+          profilePicSource: "http://"+ Config.BACKEND_URL + ":8080/picture/" + profilePicName
+        });
+    });
+    }catch(error)
+    {
+      console.warn(error);
+    }
+
   }
 
   render() {
@@ -91,7 +117,7 @@ export default class HomeScreen extends React.Component {
                       >
                         <Thumbnail
                           extra-large
-                          source={require("../img/Palino.jpg")}
+                          source={{uri: this.state.profilePicSource}}
                           style={{ margin: "10%" }}
                         />
                         <Text>Moj profil</Text>

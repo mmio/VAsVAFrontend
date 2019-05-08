@@ -15,11 +15,12 @@ import {
   List,
   ListItem,
   CardItem,
-  Textarea,
   Button,
   Item,
   Label,
-  Input
+  Input,
+  Textarea,
+  Toast
 } from "native-base";
 import {
   Dimensions,
@@ -40,6 +41,8 @@ import AutoHeightImage from "react-native-auto-height-image";
 import { HideWithKeyboard } from "react-native-hide-with-keyboard";
 import axios from "../components/axios-instance.js";
 import AsyncStorage from "@react-native-community/async-storage";
+import ImagePicker from "react-native-image-picker";
+import Config from "react-native-config";
 
 const win = Dimensions.get("window");
 const styles = {
@@ -58,7 +61,9 @@ export default class HomeScreen extends React.Component {
       tableRows: [],
       imageSource: [],
       openedImageSource: " ",
-      isEditing: false
+      isEditing: false,
+      addingPhoto: false,
+      selectedPhoto: {}
     };
   }
   closeDrawer() {
@@ -71,26 +76,26 @@ export default class HomeScreen extends React.Component {
 
   async componentDidMount() {
     let id;
-    let token;
     try {
-      id = 16; //await AsyncStorage.getItem("id");
+      id = await AsyncStorage.getItem("id");
     } catch (err) {
       console.warn(err.message);
     }
     axios
-      .get("http://192.168.1.150:8080/climber/" + id)
+      .get("http://" + Config.BACKEND_URL + ":8080/climber/" + id)
       .then(responseJson => {
-        console.warn(responseJson);
-        responseJson.data.myImages = responseJson.data.myImages.map((uri, index) => {
-          return { id: index, src: "http://192.168.1.150:8080/picture/" + uri };
-        });
         this.setState({
           user: responseJson.data,
           isLoading: false,
           tableRows: responseJson.data.myProblems.filter(problem => {
             return problem.finished === false;
           }),
-          imageSource: responseJson.data.myImages
+          imageSource: responseJson.data.myImages.map((uri, index) => {
+            return {
+              id: index,
+              src: "http://" + Config.BACKEND_URL + ":8080/picture/images_" + id + "/" + uri
+            };
+          })
         });
       })
       .catch(error => {
@@ -99,14 +104,19 @@ export default class HomeScreen extends React.Component {
   }
 
   updateUser() {
-    fetch("http://192.168.1.150:8080/climber/" + this.state.user.id, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(this.state.user)
-    });
+    axios
+      .put(
+        "http://" + Config.BACKEND_URL + ":8080/climber/" + this.state.user.id,
+        this.state.user,
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      )
+      .catch(error => {
+        console.warn(error.message);
+      });
   }
 
   finishProject(index) {
@@ -171,6 +181,48 @@ export default class HomeScreen extends React.Component {
         />
       </TouchableOpacity>
     );
+  }
+  addPhoto() {
+    ImagePicker.launchImageLibrary({ noData: true }, response => {
+      this.setState({
+        addingPhoto: true,
+        selectedPhoto: response
+      });
+    });
+  }
+
+  async uploadPhoto() {
+    const formData = new FormData();
+
+    formData.append("file", {
+      uri: this.state.selectedPhoto.uri,
+      name: this.state.selectedPhoto.fileName,
+      type: this.state.selectedPhoto.type
+    });
+    const id = await AsyncStorage.getItem("id"); 
+    axios
+      .post(
+        "http://" +
+          Config.BACKEND_URL +
+          ":8080/picture/upload/climber/" +
+          id,
+        formData
+      )
+      .then(res => {
+        if (res.data !== "Upload failed") {
+          this.setState(prevState => ({
+            imageSource: [...prevState.imageSource, {id:prevState.imageSource.length,
+              src: "http://" + Config.BACKEND_URL + ":8080/picture/images_" + id + "/" + res.data}],
+              addingPhoto: false
+          }));
+          Toast.show({
+            text: "Fotka bola pridaná",
+            buttonText: "Ok",
+            type: "success"
+          });
+        }
+      })
+      .catch(err => console.warn(err.message));
   }
 
   render() {
@@ -263,6 +315,38 @@ export default class HomeScreen extends React.Component {
                     {this.state.isEditing ? (
                       <ScrollView>
                         <Item floatingLabel underline style={styles.item}>
+                          <Label>Prezývka</Label>
+                          <Input
+                            name="nickname"
+                            onChangeText={text =>
+                              this.setState(prevState => ({
+                                user: {
+                                  ...prevState.user,
+                                  nickname: text
+                                }
+                              }))
+                            }
+                            value={this.state.user.nickname}
+                            style={{ color: "#fff" }}
+                          />
+                        </Item>
+                        <Item floatingLabel underline style={styles.item}>
+                          <Label>Status</Label>
+                          <Input
+                            name="status"
+                            onChangeText={text =>
+                              this.setState(prevState => ({
+                                user: {
+                                  ...prevState.user,
+                                  status: text
+                                }
+                              }))
+                            }
+                            value={this.state.user.status}
+                            style={{ color: "#fff" }}
+                          />
+                        </Item>
+                        <Item floatingLabel underline style={styles.item}>
                           <Label>Meno</Label>
                           <Input
                             name="name"
@@ -307,7 +391,7 @@ export default class HomeScreen extends React.Component {
                             height: 50
                           }}
                         >
-                          <Text>MuZZZZ</Text>
+                          <Text>Muž</Text>
                           <CheckBox
                             value={this.state.user.sex === "M"}
                             onValueChange={text =>
@@ -319,7 +403,7 @@ export default class HomeScreen extends React.Component {
                               }))
                             }
                           />
-                          <Text>Zenaaa</Text>
+                          <Text>Žena</Text>
                           <CheckBox
                             value={this.state.user.sex === "F"}
                             onValueChange={text =>
@@ -372,7 +456,7 @@ export default class HomeScreen extends React.Component {
                               this.setState(prevState => ({
                                 user: {
                                   ...prevState.user,
-                                  name: text
+                                  bio: text
                                 }
                               }))
                             }
@@ -382,7 +466,10 @@ export default class HomeScreen extends React.Component {
                         <Button
                           dark
                           style={{ alignSelf: "center" }}
-                          onPress={() => this.setState({ isEditing: false })}
+                          onPress={() => {
+                            this.updateUser();
+                            this.setState({ isEditing: false });
+                          }}
                         >
                           <Text>Ulož zmeny</Text>
                         </Button>
@@ -440,6 +527,13 @@ export default class HomeScreen extends React.Component {
                     style={{ flex: 1, height: "100%", width: "100%" }}
                   >
                     <ScrollView>
+                      <Button
+                        onPress={() => this.addPhoto()}
+                        dark
+                        style={{ alignSelf: "center", margin: 5 }}
+                      >
+                        <Text>Pridaj fotku</Text>
+                      </Button>
                       <PhotoGrid
                         data={this.state.imageSource}
                         itemsPerRow={2}
@@ -447,6 +541,48 @@ export default class HomeScreen extends React.Component {
                         itemPaddingHorizontal={1}
                         renderItem={this.renderImageThumbnail.bind(this)}
                       />
+                      <Modal
+                        isVisible={this.state.addingPhoto}
+                        onModalHide={() => this.setState({ selectedPhoto: {} })}
+                        style={{ marginLeft: 10, marginRight: 10 }}
+                      >
+                        <ScrollView
+                          contentContainerStyle={{
+                            width: win.width - 20,
+                            backgroundColor: material.brandDark,
+                            justifyContent: "center",
+                            borderRadius: 10
+                          }}
+                        >
+                          <AutoHeightImage
+                            source={{ uri: this.state.selectedPhoto.uri }}
+                            width={win.width - 40}
+                            style={{ margin: 10 }}
+                          />
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              justifyContent: "space-around",
+                              margin: 25
+                            }}
+                          >
+                            <Button dark onPress={() => this.uploadPhoto()}>
+                              <Text>Pridaj</Text>
+                            </Button>
+                            <Button
+                              dark
+                              onPress={() => {
+                                this.setState({
+                                  addingPhoto: false
+                                });
+                              }}
+                            >
+                              <Text>Zrus</Text>
+                            </Button>
+                          </View>
+                        </ScrollView>
+                      </Modal>
+
                       <Modal
                         isVisible={this.state.openedImageSource != " "}
                         onSwipeComplete={() =>
@@ -456,7 +592,7 @@ export default class HomeScreen extends React.Component {
                           this.setState({ openedImageSource: " " })
                         }
                         swipeDirection="left"
-                        style={{ flex: 1 }}
+                        style={{ flex: 1, margin: 0 }}
                       >
                         <AutoHeightImage
                           source={{ uri: this.state.openedImageSource }}

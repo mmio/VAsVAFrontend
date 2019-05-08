@@ -4,6 +4,15 @@ import AsyncStorage from "@react-native-community/async-storage";
 
 var axiosInstance = axios.create();
 
+/*axiosInstance.interceptors.request.use(function (config) {
+  // Do something before request is sent
+  console.warn(config)
+  return config;
+}, function (error) {
+  // Do something with request error
+  return Promise.reject(error);
+});*/
+
 axiosInstance.interceptors.response.use(
   function(response) {
     return response;
@@ -13,6 +22,7 @@ axiosInstance.interceptors.response.use(
     if (error.response.status == 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       let refreshToken;
+      console.warn("interceptor fired");
       try {
         refreshToken = await AsyncStorage.getItem("refresh_token");
       } catch (err) {
@@ -24,7 +34,7 @@ axiosInstance.interceptors.response.use(
       };
       formBody = objectToXWWW(details);
       return(axios
-        .post("http://192.168.1.150:8080/oauth/token", formBody, {
+        .post("http://localhost:8080/oauth/token", formBody, {
           auth: {
             username: "myClientPassword",
             password: "secret"

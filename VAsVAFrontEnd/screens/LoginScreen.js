@@ -15,9 +15,10 @@ import getTheme from "../native-base-theme/components";
 import material from "../native-base-theme/variables/material";
 import { ImageBackground, Image, KeyboardAvoidingView } from "react-native";
 import { HideWithKeyboard } from "react-native-hide-with-keyboard";
-import axios from "axios";
+import axios from "../components/axios-instance.js";
 import AsyncStorage from "@react-native-community/async-storage";
 import objectToXWWW from "../components/help-scripts/objectToXWWW-FROM.js"
+import Config from "react-native-config";
 
 const styles = {
   item: {
@@ -46,7 +47,7 @@ export default class LoginScreen extends React.Component {
 
     formBody = objectToXWWW(details);
     axios
-      .post("http://192.168.1.150:8080/oauth/token", formBody, {
+      .post("http://"+ Config.BACKEND_URL + ":8080/oauth/token", formBody, {
         auth: {
           username: "myClientPassword",
           password: "secret"
@@ -60,6 +61,7 @@ export default class LoginScreen extends React.Component {
           await AsyncStorage.setItem("access_token", res.data.access_token)
           await AsyncStorage.setItem("refresh_token", res.data.refresh_token);
           await AsyncStorage.setItem("id", JSON.stringify(res.data.id));
+          await AsyncStorage.setItem("profilePic", res.data.profilePic);
           axios.defaults.headers.common["Authorization"] =
                 "Bearer " + res.data.access_token;
           this.props.navigation.navigate("Home");
