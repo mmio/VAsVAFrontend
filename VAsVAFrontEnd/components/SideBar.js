@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, Content, Header, H3, List, ListItem } from "native-base";
+import stringoflanguages from '../screens/lang';
 
 function AdminOrNot(props) {
   if (props.admin == true) {
@@ -11,7 +12,7 @@ function AdminOrNot(props) {
   } else {
     return (
       <ListItem button onPress={() => props.nav.navigate("Home")}>
-        <Text>Moje Knihy</Text>
+        <Text>Domov</Text>
       </ListItem>
     );
   }
@@ -19,25 +20,42 @@ function AdminOrNot(props) {
 
 export default class SideBar extends React.Component {
 
+  changeLanguage(lang) {
+    if (lang !== "sk" && lang !== "en") {
+      console.log("Wrong language! Defaulting to english (\"en\").")
+      changeLanguage("en");
+    } else {
+      stringoflanguages.setLanguage(lang);
+      this.setState({ lang: lang });
+    }
+  }
+
   render() {
     return (
-      <Content style={{ backgroundColor: "#FFFFFF" }}>
+      <Content style={{
+        backgroundColor: "#232B2B",
+      }}>
         <Header
           style={{
             flex: 1,
             flexDirection: "column",
-            backgroundColor: "#232B2B",
             height: 100,
             justifyContent: "flex-end",
-            paddingVertical: "10%"
+            paddingVertical: "10%",
           }}
         >
-          <H3>Ahoj</H3>
+          <H3>Navigation</H3>
         </Header>
         <List>
           <AdminOrNot admin={this.props.admin} nav={this.props.navigation} />
           <ListItem button onPress={() => console.warn("Logoff")}>
             <Text>Odhlásiť sa!</Text>
+          </ListItem>
+          <ListItem button onPress={() => this.changeLanguage("sk")}>
+            <Text>SK</Text>
+          </ListItem>
+          <ListItem button onPress={() => this.changeLanguage("en")}>
+            <Text>EN</Text>
           </ListItem>
         </List>
       </Content>

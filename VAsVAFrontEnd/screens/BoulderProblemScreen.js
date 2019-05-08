@@ -1,27 +1,23 @@
 import React from "react";
-import SideBar from "../components/SideBar.js";
-import getTheme from "../native-base-theme/components";
-import material from "../native-base-theme/variables/material";
 import {ListItem} from 'react-native-elements';
 import {
     StyleProvider,
     Container,
     Content,
     Drawer,
-    Button,
-    Text,
 } from "native-base";
 import {View, FlatList, StyleSheet} from "react-native";
-import AppHeader from "../components/AppHeader.js";
-import {createIconSetFromFontello} from "react-native-vector-icons";
-import fontelloConfig from "../config.json";
-import axios from "../components/axios-instance.js";
-import { endpoint } from "./props";
 import { Dropdown } from 'react-native-material-dropdown';
-import { Col, Row } from "react-native-easy-grid";
-import stringoflanguages from './lang';
+import { Col, Row, Grid } from "react-native-easy-grid";
 
-const CustomIcon = createIconSetFromFontello(fontelloConfig);
+import SideBar from "../components/SideBar.js";
+import getTheme from "../native-base-theme/components";
+import material from "../native-base-theme/variables/material";
+import AppHeader from "../components/AppHeader.js";
+import axios from "../components/axios-instance.js";
+
+import { endpoint } from "./props";
+import stringoflanguages from './lang';
 
 const styles = StyleSheet.create({
     container: {
@@ -38,6 +34,16 @@ const styles = StyleSheet.create({
     },
 });
 
+// Funkcia na posielanie logov na server
+function logStuff(severity, msg) {
+  msg = msg.replace(" ", "%20");
+  axios.get(`${endpoint}/log/${severity}/${msg}`).catch(err => {
+    console.log(err, "ERROR: Could not send log to server.");
+  });
+}
+
+// Táto obrazovka obsahuje zoznam Boulder problémov, dajú sa v nej napr. filtrovať problémy
+// na základe rôznych parametrov ako stupeň obtiažnosti.
 export default class BoulderProblemScreen extends React.Component {
     constructor(props) {
         super(props);
@@ -46,21 +52,45 @@ export default class BoulderProblemScreen extends React.Component {
           grade: undefined,
           maxOver: undefined,
           sector: undefined,
+          scat: [],
+          gcat: [],
+          mcat: [],
         };
         this.arrayholder = [];
+
+        logStuff("TRACE", "Boulder problem screen created");
     }
 
     componentDidMount() {
+      logStuff("INFO", "Request for problems sent.");
+
       axios
         .get(`${endpoint}/problems`)
             .then((response) =>
                   response.data
             )
             .then((problems) => {
+              logStuff("INFO", "Respond for problems received.");
+
+              // Filtrovanie vhodných problémov na základe ich typu
               const data = problems
-                    //.filter(problem => problem.type === "boulder")
+                    .filter(problem => problem.type === "boulder")
                     .map(problem => {
-                      console.log(problem);
+
+                      // Populovanie kategórií filtrov: sektory, stupňe a prevysi
+                      let tmp_s = this.state.scat;
+                      let tmp_g = this.state.gcat;
+                      let tmp_m = this.state.mcat;
+                      tmp_s.push(problem.sector);
+                      tmp_g.push(problem.grade);
+                      tmp_m.push(problem.maximumOverhangDegree);
+                      this.setState({
+                        scat:tmp_s,
+                        gcat:tmp_g,
+                        mcat:tmp_m,
+                      });
+
+                      // Konvertovanie na vnútronú reprezentáciu
                         return {
                             key: problem.id,
                             name: problem.name,
@@ -72,23 +102,47 @@ export default class BoulderProblemScreen extends React.Component {
                     }
               );
 
+                console.log([...new Set(this.state.scat)]);
+                let all_scat = [...new Set(this.state.scat)].map((c) => {
+                  return { value: c };
+                });
+                let all_gcat = [...new Set(this.state.gcat)].map((c) => {
+                  return { value: c };
+                });
+                let all_mcat = [...new Set(this.state.mcat)].map((c) => {
+                  return { value: c };
+                });
+
+                // Pridávanie všetkých prístupných kategórií
+                this.setState({
+                  scat: all_scat,
+                  gcat: all_gcat,
+                  mcat: all_mcat,
+                });
+
                 this.setState({data})
                 this.arrayholder = data;
             })
             .catch(err => {
+                logStuff("WARN", "Could not get problems.");
                 console.log(err);
             });
     }
 
+    // Zatvorenie bočného panelu
     closeDrawer() {
+      this.setState({lang: "changed"});
         this.drawer._root.close();
     }
 
+    // Otvorenie bočného panelu
     openDrawer() {
         this.drawer._root.open();
     }
 
+    // Filtrovanie problémov na základe aktuálne vybraných filtrov
     filterAll() {
+      logStuff("TRACE", "Filtering problems.");
       const newData = this.arrayholder
       .filter(problem => {
         console.log('sect',this.state.sector);
@@ -115,125 +169,63 @@ export default class BoulderProblemScreen extends React.Component {
 
     }
 
+    // Filtruj na základe sektorov
     filterSections(sector) {
+      logStuff("TRACE", "Filtering problems based on sector.");
       this.setState({sector}, () => this.filterAll());
-
-      // const newData = this.arrayholder
-      //       .filter(problem => {
-      //         console.log(sector);
-      //         console.log(problem.sector);
-      //           return problem.sector == sector;
-      //       });
-        
-      //   this.setState({
-      //       data: newData,
-      //   });
     }
 
+    // Filtruj na základe stupňov
     filterGrades(grade) {
+      logStuff("TRACE", "Filtering problems based on grade.");
       this.setState({grade}, () => this.filterAll());
-      // const newData = this.arrayholder
-      //       .filter(problem => {
-      //         console.log(grade);
-      //         console.log(problem.grade);
-      //           return problem.grade == grade;
-      //       });
-        
-      //   this.setState({
-      //       data: newData,
-      //   });
     }
 
+    // Filtruj na základe prevysov
     filterMaxOverhang(max) {
+      logStuff("TRACE", "Filtering problems based on overhang.");
       this.setState({maxOver: max}, () => this.filterAll());
-      // const newData = this.arrayholder
-      //       .filter(problem => {
-      //         console.log(max);
-      //         console.log(problem.maxOver);
-      //           return parseFloat(problem.maxOver) <= parseFloat(max);
-      //       });
-        
-      //   this.setState({
-      //       data: newData,
-      //   });
     }
 
-    renderFilters = () => {   
-      let sectors = [{
-          value: 'A2',
-        }, {
-          value: 'C3',
-        }, {
-          value: 'None',
-        },
-      ];
-
-      let grades = [{
-          value: '6a',
-        }, {
-          value: '6-',
-        }, {
-          value: 'None',
-        },
-      ];
-
-      let max = [{
-          value: '5',
-        }, {
-          value: '40',
-        }, {
-          value: 'None',
-        },
-      ];
-
+    // Renderovanie Filtrov, stupeň, 
+    renderFilters = () => {
       return (
         <View style={styles.drop}>
+        <Grid>
           <Row>
             <Col style={{ marginHorizontal: "1%" }}>
               <Dropdown
                 label={stringoflanguages.grade}
-                data={grades}
+                data={this.state.gcat}
                 value='None'
                 onChangeText={(grade) => this.filterGrades(grade)}
               />
             </Col>
             <Col style={{ marginHorizontal: "1%" }}>
               <Dropdown
-                label='Max Overhang'
+                label={stringoflanguages.maxOverhang}
                 value='None'
-                data={max}
+                data={this.state.mcat}
                 onChangeText={(max) => this.filterMaxOverhang(max)}
               />
             </Col>
             <Col style={{ marginHorizontal: "1%" }}>
               <Dropdown
-                label='Sector'
-                data={sectors}
+                label={stringoflanguages.sector}
+                data={this.state.scat}
                 value='None'
                 onChangeText={(sector) => this.filterSections(sector)}
               />
             </Col>
           </Row>
+          </Grid>
         </View>
       );
     };
 
     render() {
-        // const problems = this.state.problems;
-
-        // const boulderProblemList = problems
-        //       .filter(problem => problem.type === "boulder")
-        //       .map(problem => {
-        //           return {
-        //               key: problem.id,
-        //               name: problem.name,
-        //               type: "boulder"
-        //           };
-        //       }
-        // );
-
-        return (
-	    <StyleProvider style={getTheme(material)}>
+      return (
+	      <StyleProvider style={getTheme(material)}>
               <Drawer
                 ref={ref => {
                     this.drawer = ref;
@@ -251,25 +243,22 @@ export default class BoulderProblemScreen extends React.Component {
                     openDrawer={() => this.openDrawer()}
                     navigation={this.props.navigation}
                   />
-                  <Content contentContainerStyle={{flex: 1, heigth: "100%", width: "100%"}}>
-                    {/* <View style={styles.container}> */}
-                      
+                  <Content contentContainerStyle={{flex: 1, heigth: "100%", width: "100%"}}>  
                       <FlatList
                         ListHeaderComponent={this.renderFilters}
                         data={this.state.data}
                         renderItem={({item}) =>
-                                    <ListItem
-                                      key={item.key}
-                                      title={item.name}
-                                      subtitle={item.type}
-                                      onPress={() => this.props.navigation.navigate("ProblemDetails", {id: item.key})}
-                                    />}
+                                      <ListItem
+                                        key={item.key}
+                                        title={item.name}
+                                        subtitle={item.type}
+                                        onPress={() => this.props.navigation.navigate("ProblemDetails", {id: item.key})}
+                                      />}
                       />
-                    {/* </View> */}
                   </Content>
                 </Container>
               </Drawer>
-	    </StyleProvider>
-        );
+	      </StyleProvider>
+      );
     }
 }

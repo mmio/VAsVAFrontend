@@ -1,5 +1,6 @@
-import React from 'react';
 import LocalizedStrings from 'react-native-localization';
+
+// Súbor obsahujúci preklady pre jazyk slovenský a anglický
 const strings = new LocalizedStrings({
   "en":{
     // HomeScreen
@@ -20,6 +21,12 @@ const strings = new LocalizedStrings({
     type: "Type",
     description: "Description",
     picture: "Picture",
+    points: "points",
+
+    // Login
+    login: "Login",
+    password: "Password",
+    email: "Email",
   },
   "sk":{
     // HomeScreen
@@ -40,6 +47,12 @@ const strings = new LocalizedStrings({
     type: "Typ",
     description: "Opis",
     picture: "Obrázok",
+    points: "bodov",
+
+    // Login
+    password: "Heslo",
+    email: "Email",
+    login: "Prihlásiť sa",
   }
 });
 export default strings;

@@ -18,6 +18,7 @@ import { HideWithKeyboard } from "react-native-hide-with-keyboard";
 import axios from "axios";
 import AsyncStorage from "@react-native-community/async-storage";
 import objectToXWWW from "../components/help-scripts/objectToXWWW-FROM.js"
+import stringoflanguages from './lang';
 
 const styles = {
   item: {
@@ -46,7 +47,7 @@ export default class LoginScreen extends React.Component {
 
     formBody = objectToXWWW(details);
     axios
-      .post("http://192.168.1.150:8080/oauth/token", formBody, {
+      .post(`${endpoint}/oauth/token`, formBody, {
         auth: {
           username: "myClientPassword",
           password: "secret"
@@ -122,7 +123,7 @@ export default class LoginScreen extends React.Component {
                 >
                   <H2 style={{ color: "#fff" }}>Lezecká stena X</H2>
                   <Item floatingLabel underline style={styles.item}>
-                    <Label>Email</Label>
+                    <Label>{stringsoflanguages.email}</Label>
                     <Input
                       name="password"
                       onChangeText={text => this.setState({ email: text })}
@@ -131,7 +132,7 @@ export default class LoginScreen extends React.Component {
                     />
                   </Item>
                   <Item floatingLabel underline style={styles.item}>
-                    <Label>Heslo</Label>
+                    <Label>{stringsoflanguages.password}</Label>
                     <Input
                       secureTextEntry
                       name="password"
@@ -145,7 +146,7 @@ export default class LoginScreen extends React.Component {
                     style={{ alignSelf: "center" }}
                     onPress={this.login.bind(this)}
                   >
-                    <Text>Prihlás!</Text>
+                    <Text>{stringoflanguages.login}</Text>
                   </Button>
                 </Card>
               </KeyboardAvoidingView>

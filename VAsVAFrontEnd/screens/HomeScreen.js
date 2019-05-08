@@ -34,6 +34,7 @@ const styles = {
 
 export default class HomeScreen extends React.Component {
   closeDrawer() {
+    this.setState({lang: "changed"});
     this.drawer._root.close();
   }
 
@@ -42,8 +43,6 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
-    stringoflanguages.setLanguage("sk");
-    
     return (
       <StyleProvider style={getTheme(material)}>
         <Drawer
@@ -97,7 +96,7 @@ export default class HomeScreen extends React.Component {
                           source={require("../img/Palino.jpg")}
                           style={{ margin: "10%" }}
                         />
-                        <Text>Moj profil</Text>
+                        <Text>{stringoflanguages.myProfile}</Text>
                       </Button>
                     </Col>
                     <Col style={{ marginLeft: "2%" }}>
@@ -121,7 +120,7 @@ export default class HomeScreen extends React.Component {
                               color: "#232B2B"
                             }}
                           >
-                            BOULDER PROBLÉMY
+                            {stringoflanguages.boulderProblems}
                           </Text>
                           <Icon
                             type="FontAwesome5"
@@ -144,7 +143,7 @@ export default class HomeScreen extends React.Component {
                         >
                           <CustomIcon name="climber" size={60} color="white" />
                           <Text style={{ textAlign: "center", fontSize: 16 }}>
-                            PROBLÉMY NA STENE
+                            {stringoflanguages.wallProblems}
                           </Text>
                         </Button>
                       </Row>
@@ -189,7 +188,7 @@ export default class HomeScreen extends React.Component {
                           name="qrcode"
                           style={{ fontSize: 60, color: "#232B2B" }}
                         />
-                        <Text style={{ color: "#232B2B" }}>SKENUJ QR KÓD</Text>
+                        <Text style={{ color: "#232B2B" }}>{stringoflanguages.scanQrCode}</Text>
                       </Button>
                     </Col>
                   </Row>

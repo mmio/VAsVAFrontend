@@ -16,6 +16,7 @@ import {createIconSetFromFontello} from "react-native-vector-icons";
 import fontelloConfig from "../config.json";
 import { endpoint } from "./props";
 import axios from "../components/axios-instance.js";
+import stringoflanguages from './lang';
 
 import axiosInstance from '../components/axios-instance.js';
 
@@ -33,6 +34,15 @@ const styles = StyleSheet.create({
     },
 });
 
+function logStuff(severity, msg) {
+    msg = msg.replace(" ", "%20");
+    axios.get(`${endpoint}/log/${severity}/${msg}`).catch(err => {
+      console.log(err, "ERROR: Could not send log to server.");
+    });
+  }
+
+// Obrazovka reprezentujúca rebríček, kde sú všetkci lezci zoradný na základe ich doteraz
+// získaných skór
 export default class HighscoreScreen extends React.Component {
     constructor(props) {
         super(props);
@@ -45,9 +55,14 @@ export default class HighscoreScreen extends React.Component {
         };
 
         this.arrayholder = [];
+
+        logStuff("TRACE", "Highscore screen created.");
     }
 
+    // Po načítaní obrazovky sa posielajú požiadavky pre každého jedného lezca.
     componentDidMount() {
+        logStuff("INFO", "Request for climbers sent.");
+
         this.setState({loading: true});
 
         axios
@@ -56,12 +71,13 @@ export default class HighscoreScreen extends React.Component {
                 response.data
             )
             .then((climbers) => {
+                logStuff("INFO", "Respond for climbers received.");
                 const data = climbers.map((climber, i) => {
                     return {
                         key: i,
                         name: climber.name,
                         problem_count: climber.myProblems.length,
-                        score: climber.myProblems.length * i * 100 + " bodov",
+                        score: climber.myProblems.length * i * 100,
                     };
                 }).sort((a, b) => a.score < b.score);
 
@@ -73,6 +89,8 @@ export default class HighscoreScreen extends React.Component {
                 this.arrayholder = data;
             })
             .catch(err => {
+                logStuff("WARN", "Could not get climbers.");
+
                 console.log(err);
                 this.setState({
                     error: err,
@@ -82,6 +100,7 @@ export default class HighscoreScreen extends React.Component {
     }
 
     closeDrawer() {
+        this.setState({lang: "changed"});
         this.drawer._root.close();
     }
 
@@ -89,18 +108,24 @@ export default class HighscoreScreen extends React.Component {
         this.drawer._root.open();
     }
 
+    // Tu sa filtruje obsah zoznamu na základe zadaného výrazu v hornej časti obrazovky
     searchFilterFunction = text => {
+        logStuff("DEBUG", `Filtering climbers (${text})`);
+
         const newData = this.arrayholder
             .filter(climber => {
                 return climber.name.indexOf(text) > -1;
             });
         
+        logStuff("DEBUG", `Climbers found (${newData.length})`);
+
         this.setState({
             data: newData,
             search: text,
         });
       };
 
+        // Zobrazenie vyhľadávania
       renderSearch = () => {    
         return (      
           <SearchBar        
@@ -114,6 +139,7 @@ export default class HighscoreScreen extends React.Component {
         );  
       };
 
+      // Renderovanie obrazovky
     render() {
         return (
             <StyleProvider style={getTheme(material)}>
@@ -143,7 +169,7 @@ export default class HighscoreScreen extends React.Component {
                                         key={item.key}
                                         leftAvatar={{source: require("../img/Palino.jpg")}}
                                         title={item.name}
-                                        subtitle={item.score}
+                                        subtitle={item.score + " " + stringoflanguages.points}
                                         onPress={() => this.props.navigation.navigate("Wall")}
                                     />
                                 }

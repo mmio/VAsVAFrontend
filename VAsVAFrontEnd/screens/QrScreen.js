@@ -1,35 +1,48 @@
-//This is an example code to Scan QR code//
 import React, { Component } from 'react';
-//import react in our code.
-import { Text, View, Linking, TouchableHighlight, PermissionsAndroid, Platform, StyleSheet} from 'react-native';
-// import all basic components
-import { CameraKitCameraScreen, } from 'react-native-camera-kit';
-//import CameraKitCameraScreen we are going to use.
+import { View, PermissionsAndroid, Platform } from 'react-native';
+import { CameraKitCameraScreen } from 'react-native-camera-kit';
+import axios from "../components/axios-instance.js";
+import { endpoint } from "./props";
+
+// Logovanie chýba na server
+function logStuff(severity, msg) {
+  msg = msg.replace(" ", "%20");
+  axios.get(`${endpoint}/log/${severity}/${msg}`).catch(err => {
+    console.log(err, "ERROR: Could not send log to server.");
+  });
+}
+
+// Trida, ktorá má za úlohu zobraziť čítačku QR kódov a následke po načítaní presmerovať na
+// vhodný lezecký problém.
 export default class QrScreen extends Component {
   constructor() {
     super();
+
     this.state = {
-      //variable to hold the qr value
       qrvalue: '',
       opneScanner: false,
     };
+
+    logStuff("TRACE", "Opened QR scanner.");
   }
-  onOpenlink() {
-    //Function to open URL, If scanned 
-    // !!!!!!!
-    Linking.openURL(this.state.qrvalue);
-    //Linking used to open the URL in any browser that you have installed
-  }
+  
+  // Tu sa presmeruje na základe načítanej hodnoty.
   onScan(qrvalue) {
-    //called after te successful scanning of QRCode/Barcode
-    this.setState({ qrvalue });
+    logStuff("TRACE", `QR code scanned with value (${qrvalue}).`);
+
+    // this.setState({ qrvalue });
+
     console.log("SCANNED: ", qrvalue)
+
     this.props.navigation.navigate("ProblemDetails", {id: parseInt(qrvalue)});
-    this.setState({ opneScanner: false });
+    // this.setState({ opneScanner: false });
   }
+
+  // Pri otvorený skenovača sa treba spýtať používateľa na prístup ku kamere,
+  // ktorou sa bude skenovať.
   onOpneScanner() {
     var that =this;
-    //To Start Scanning
+
     if(Platform.OS === 'android'){
       async function requestCameraPermission() {
         try {
@@ -40,7 +53,6 @@ export default class QrScreen extends Component {
             }
           )
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            //If CAMERA Permission is granted
             that.setState({ qrvalue: '' });
             that.setState({ opneScanner: true });
           } else {
@@ -51,52 +63,23 @@ export default class QrScreen extends Component {
           console.warn(err);
         }
       }
-      //Calling the camera permission function
       requestCameraPermission();
     }else{
       that.setState({ qrvalue: '' });
       that.setState({ opneScanner: true });
     }    
   }
+
+  // Zobrazenie skenovacieho okna(žlté s modrým pásikom)
   render() {
-    let displayModal;
-    //If qrvalue is set then return this view
-    if (false && !this.state.opneScanner) { // should never trigger
-      return (
-        <View style={styles.container}>
-            <Text style={styles.heading}>React Native QR Code Example</Text>
-            <Text style={styles.simpleText}>{this.state.qrvalue ? 'Scanned QR Code: '+this.state.qrvalue : ''}</Text>
-            {this.state.qrvalue.includes("http") ? 
-              <TouchableHighlight
-                onPress={() => this.onOpenlink()}
-                style={styles.button}>
-                  <Text style={{ color: '#FFFFFF', fontSize: 12 }}>Open Link</Text>
-              </TouchableHighlight>
-              : null
-            }
-            <TouchableHighlight
-              onPress={() => this.onOpneScanner()}
-              style={styles.button}>
-                <Text style={{ color: '#FFFFFF', fontSize: 12 }}>
-                Open QR Scanner
-                </Text>
-            </TouchableHighlight>
-        </View>
-      );
-    }
     return (
       <View style={{ flex: 1 }}>
         <CameraKitCameraScreen
           showFrame={true}
-          //Show/hide scan frame
           scanBarcode={true}
-          //Can restrict for the QR Code only
           laserColor={'blue'}
-          //Color can be of your choice
           frameColor={'yellow'}
-          //If frame is visible then frame color
           colorForScannerFrame={'black'}
-          //Scanner Frame color
           onReadCode={event =>
             this.onScan(event.nativeEvent.codeStringValue)
           }
@@ -105,32 +88,3 @@ export default class QrScreen extends Component {
     );
   }
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor:'white'
-  },
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#2c3539',
-    padding: 10,
-    width:300,
-    marginTop:16
-  },
-  heading: { 
-    color: 'black', 
-    fontSize: 24, 
-    alignSelf: 'center', 
-    padding: 10, 
-    marginTop: 30 
-  },
-  simpleText: { 
-    color: 'black', 
-    fontSize: 20, 
-    alignSelf: 'center', 
-    padding: 10, 
-    marginTop: 16
-  }
-});
