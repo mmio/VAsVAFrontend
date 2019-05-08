@@ -20,6 +20,7 @@ import { HideWithKeyboard } from "react-native-hide-with-keyboard";
 import axios from "../components/axios-instance.js";
 import Config from "react-native-config";
 import toUrlEncoded from "../components/help-scripts/objectToXWWW-FROM.js"
+import stringoflanguages from './lang';
 
 const styles = {
   item: {
@@ -46,7 +47,7 @@ export default class LoginScreen extends React.Component {
       if(this.state.password !== this.state.repeatPassword)
       {
           Toast.show({
-              text: "Heslá sa nezhodujú",
+              text: `${stringoflanguages.passDontMatch}`,
               type:"danger",
               buttonText: "Ok"
           });
@@ -55,7 +56,7 @@ export default class LoginScreen extends React.Component {
       if(this.state.password ==="" || this.state.email ===""|| this.state.repeatPassword ==="")
       {
         Toast.show({
-            text: "Vyplňte všetky polia",
+            text: `${stringoflanguages.fillAll}`,
             type:"danger",
             buttonText: "Ok"
         });
@@ -128,7 +129,7 @@ export default class LoginScreen extends React.Component {
                     flex:1
                   }}
                 >
-                  <H2 style={{ color: "#fff" }}>Registrácia</H2>
+                  <H2 style={{ color: "#fff" }}>`${stringoflanguages.registration}`</H2>
                   <Item floatingLabel underline style={styles.item}>
                     <Label>Email</Label>
                     <Input
@@ -139,7 +140,7 @@ export default class LoginScreen extends React.Component {
                     />
                   </Item>
                   <Item floatingLabel underline style={styles.item}>
-                    <Label>Heslo</Label>
+                    <Label>`${stringoflanguages.password}`</Label>
                     <Input
                       secureTextEntry
                       name="password"
@@ -149,7 +150,7 @@ export default class LoginScreen extends React.Component {
                     />
                   </Item>
                   <Item floatingLabel underline style={styles.item}>
-                    <Label>Zopakuj heslo</Label>
+                    <Label>`${stringoflanguages.passwordAgain}`</Label>
                     <Input
                       secureTextEntry
                       name="repeatPassword"
@@ -170,7 +171,7 @@ export default class LoginScreen extends React.Component {
                             width:"93%"
                           }}
                         >
-                          <Text>Muž</Text>
+                          <Text>`${stringoflanguages.male}`</Text>
                           <CheckBox
                             value={this.state.sex === "M"}
                             onValueChange={text =>
@@ -178,7 +179,7 @@ export default class LoginScreen extends React.Component {
                               )
                             }
                           />
-                          <Text>Žena</Text>
+                          <Text>`${stringoflanguages.female}`</Text>
                           <CheckBox
                             value={this.state.sex === "F"}
                             onValueChange={text =>
@@ -192,7 +193,7 @@ export default class LoginScreen extends React.Component {
                     style={{ alignSelf: "center", margin:10 }}
                     onPress={this.register.bind(this)}
                   >
-                    <Text>Registruj sa!</Text>
+                    <Text>`${stringoflanguages.register}`</Text>
                   </Button>
                 </Card>
               </KeyboardAvoidingView>

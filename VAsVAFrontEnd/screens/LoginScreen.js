@@ -19,6 +19,7 @@ import axios from "../components/axios-instance.js";
 import AsyncStorage from "@react-native-community/async-storage";
 import objectToXWWW from "../components/help-scripts/objectToXWWW-FROM.js";
 import Config from "react-native-config";
+import stringoflanguages from './lang';
 
 const styles = {
   item: {
@@ -131,7 +132,7 @@ export default class LoginScreen extends React.Component {
                     />
                   </Item>
                   <Item floatingLabel underline style={styles.item}>
-                    <Label>Heslo</Label>
+                    <Label>`${stringoflanguages.password}`</Label>
                     <Input
                       secureTextEntry
                       name="password"
@@ -154,7 +155,7 @@ export default class LoginScreen extends React.Component {
                     style={{ alignSelf: "center" }}
                     onPress={this.login.bind(this)}
                   >
-                    <Text>Prihlás!</Text>
+                    <Text>`${stringoflanguages.login}`</Text>
                   </Button>
                 </Card>
               </KeyboardAvoidingView>

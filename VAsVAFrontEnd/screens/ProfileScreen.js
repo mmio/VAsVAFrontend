@@ -45,6 +45,7 @@ import { endpoint } from "./props";
 import AsyncStorage from "@react-native-community/async-storage";
 import ImagePicker from "react-native-image-picker";
 import Config from "react-native-config";
+import stringoflanguages from './lang';
 
 const win = Dimensions.get("window");
 const styles = {
@@ -219,7 +220,7 @@ export default class HomeScreen extends React.Component {
               addingPhoto: false
           }));
           Toast.show({
-            text: "Fotka bola pridaná",
+            text: `${stringoflanguages.picAdded}`,
             buttonText: "Ok",
             type: "success"
           });
@@ -323,7 +324,7 @@ export default class HomeScreen extends React.Component {
                   <Tab
                     heading={
                       <TabHeading>
-                        <Text>Osobné údaje</Text>
+                        <Text>`${stringoflanguages.personalData}`</Text>
                       </TabHeading>
                     }
                     style={{ flex: 1, height: "100%", width: "100%" }}
@@ -331,7 +332,7 @@ export default class HomeScreen extends React.Component {
                     {this.state.isEditing ? (
                       <ScrollView>
                         <Item floatingLabel underline style={styles.item}>
-                          <Label>Prezývka</Label>
+                          <Label>`${stringoflanguages.nick}`</Label>
                           <Input
                             name="nickname"
                             onChangeText={text =>
@@ -363,7 +364,7 @@ export default class HomeScreen extends React.Component {
                           />
                         </Item>
                         <Item floatingLabel underline style={styles.item}>
-                          <Label>Meno</Label>
+                          <Label>`${stringoflanguages.name}`</Label>
                           <Input
                             name="name"
                             onChangeText={text =>
@@ -379,7 +380,7 @@ export default class HomeScreen extends React.Component {
                           />
                         </Item>
                         <Item floatingLabel underline style={styles.item}>
-                          <Label>Vek</Label>
+                          <Label>`${stringoflanguages.age}`</Label>
                           <Input
                             name="age"
                             onChangeText={text =>
@@ -407,7 +408,7 @@ export default class HomeScreen extends React.Component {
                             height: 50
                           }}
                         >
-                          <Text>Muž</Text>
+                          <Text>`${stringoflanguages.male}`</Text>
                           <CheckBox
                             value={this.state.user.sex === "M"}
                             onValueChange={text =>
@@ -419,7 +420,7 @@ export default class HomeScreen extends React.Component {
                               }))
                             }
                           />
-                          <Text>Žena</Text>
+                          <Text>`${stringoflanguages.female}`</Text>
                           <CheckBox
                             value={this.state.user.sex === "F"}
                             onValueChange={text =>
@@ -433,7 +434,7 @@ export default class HomeScreen extends React.Component {
                           />
                         </View>
                         <Item floatingLabel underline style={styles.item}>
-                          <Label>Najťažšia zlezená obtiažnosť</Label>
+                          <Label>`${stringoflanguages.mostDifficult}`</Label>
                           <Input
                             name="grade"
                             onChangeText={text =>
@@ -449,7 +450,7 @@ export default class HomeScreen extends React.Component {
                           />
                         </Item>
                         <Item floatingLabel underline style={styles.item}>
-                          <Label>Kontakt</Label>
+                          <Label>`${stringoflanguages.contact}`</Label>
                           <Input
                             name="contact"
                             onChangeText={text =>
@@ -465,7 +466,7 @@ export default class HomeScreen extends React.Component {
                           />
                         </Item>
                         <Item floatingLabel underline style={styles.item}>
-                          <Label>O mne</Label>
+                          <Label>`${stringoflanguages.aboutMe}`</Label>
                           <Textarea
                             rowSpan={5}
                             onChangeText={text =>
@@ -487,7 +488,7 @@ export default class HomeScreen extends React.Component {
                             this.setState({ isEditing: false });
                           }}
                         >
-                          <Text>Ulož zmeny</Text>
+                          <Text>`${stringoflanguages.saveChanges}`</Text>
                         </Button>
                       </ScrollView>
                     ) : (
@@ -501,33 +502,33 @@ export default class HomeScreen extends React.Component {
                             alignSelf: "center"
                           }}
                         >
-                          <Text>Uprav profil</Text>
+                          <Text>`${stringoflanguages.editProfile}`</Text>
                         </Button>
                         <List>
                           <ListItem>
-                            <Text>Meno: </Text>
+                            <Text>`${stringoflanguages.name}: `</Text>
                             <Text>{this.state.user.name}</Text>
                           </ListItem>
                           <ListItem>
-                            <Text>Vek: </Text>
+                            <Text>`${stringoflanguages.age}: `</Text>
                             <Text>{this.state.user.age}</Text>
                           </ListItem>
                           <ListItem>
-                            <Text>Pohlavie: </Text>
+                            <Text>`${stringoflanguages.sex}: `</Text>
                             <Text>
                               {this.state.user.sex == "M" ? "Muž" : "Žena"}
                             </Text>
                           </ListItem>
                           <ListItem>
-                            <Text>Najťažšia zlezená obtiažnosť: </Text>
+                            <Text>`${stringoflanguages.mostDifficult}: `</Text>
                             <Text>{this.state.user.grade}</Text>
                           </ListItem>
                           <ListItem>
-                            <Text>Kontakt: </Text>
+                            <Text>`${stringoflanguages.contact}: `</Text>
                             <Text>{this.state.user.contact}</Text>
                           </ListItem>
                           <ListItem>
-                            <Text>O mne: </Text>
+                            <Text>`${stringoflanguages.aboutMe}: `</Text>
                             <Text>{this.state.user.bio}</Text>
                           </ListItem>
                         </List>
@@ -537,7 +538,7 @@ export default class HomeScreen extends React.Component {
                   <Tab
                     heading={
                       <TabHeading>
-                        <Text style={{ textAlign: "center" }}>Moje fotky</Text>
+                        <Text style={{ textAlign: "center" }}>`${stringoflanguages.myPhotos}`</Text>
                       </TabHeading>
                     }
                     style={{ flex: 1, height: "100%", width: "100%" }}
@@ -548,7 +549,7 @@ export default class HomeScreen extends React.Component {
                         dark
                         style={{ alignSelf: "center", margin: 5 }}
                       >
-                        <Text>Pridaj fotku</Text>
+                        <Text>`${stringoflanguages.addPhoto}`</Text>
                       </Button>
                       <PhotoGrid
                         data={this.state.imageSource}
@@ -583,7 +584,7 @@ export default class HomeScreen extends React.Component {
                             }}
                           >
                             <Button dark onPress={() => this.uploadPhoto()}>
-                              <Text>Pridaj</Text>
+                              <Text>`${stringoflanguages.add}`</Text>
                             </Button>
                             <Button
                               dark
@@ -593,7 +594,7 @@ export default class HomeScreen extends React.Component {
                                 });
                               }}
                             >
-                              <Text>Zrus</Text>
+                              <Text>`${stringoflanguages.cancel}`</Text>
                             </Button>
                           </View>
                         </ScrollView>
@@ -622,7 +623,7 @@ export default class HomeScreen extends React.Component {
                     heading={
                       <TabHeading>
                         <Text style={{ textAlign: "center" }}>
-                          Moje problémy
+                        `${stringoflanguages.myProblems}`
                         </Text>
                       </TabHeading>
                     }
@@ -636,7 +637,7 @@ export default class HomeScreen extends React.Component {
                           margin: "3%"
                         }}
                       >
-                        <Text>Zobrazuj dokončené problémy</Text>
+                        <Text>`${stringoflanguages.showFinished}`</Text>
                         <CheckBox
                           value={this.state.showFinishedProblems}
                           onValueChange={this.applyFilterFinished.bind(this)}

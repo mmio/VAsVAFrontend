@@ -54,18 +54,7 @@ function FullList(props) {
     data={props.climbers}
     renderItem={({ item }) =>
       <View>
-        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
-        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
-        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
-        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
-        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
-        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
-        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
-        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
-        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
-        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
-        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
-        <Text key={item.key} style={styles.item}>{item.key}. {item.name}</Text>
+        <Text key={item.key} style={styles.item} onPress={() => this.props.navigation.navigate("OtherProfile", {id: item.key})} >{item.id}. {item.name}</Text>
       </View>
     }
   />;
