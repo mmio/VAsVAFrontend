@@ -143,10 +143,12 @@ export default class ProblemDetailsScreen extends React.Component {
 
         return problems;
       })
-      .then((problems) => {
+        // toto musí byť async inač sa najprv ukončí vonkaršie volanie, axios až potom vnútorné, čo spôsobí,
+        // že zoznam problémov sa naprv zapíže do state až potom sa stiahnu veci čo reálne chceme aktualizovať
+      .then(async (problems) => { 
         let order = 0;
         for (let problem of problems) {
-          axios
+          await axios
           .get(`${endpoint}/climbers`)
             .then(response =>
               response.data
@@ -159,11 +161,13 @@ export default class ProblemDetailsScreen extends React.Component {
                 ).length >= 1
               ).map((climber, index) => {
                 climber.key = index + 1;
+                console.log('CLIMBER:', climber.name);
                 return climber;
               });
 
               let problemsCopy = JSON.parse(JSON.stringify(this.state.problems));
               problemsCopy[order].climbers = climbersForThisProblem;
+              console.log('ORDER:', order);
               order++;
 
               logStuff("DEBUG", "Climbers and problems successfully fetched.");
@@ -179,6 +183,9 @@ export default class ProblemDetailsScreen extends React.Component {
             });
         }
       })
+      .then(() => {
+        console.log("ALL PROBLEMS:", this.state.problems);
+      }) 
       .catch(err => {
         logStuff("WARN", "Cannot fetch problems.");
         console.err("Error fetching problems!");
@@ -264,6 +271,7 @@ export default class ProblemDetailsScreen extends React.Component {
   // ktorý zobrazuje. Ak žiadny nedostane všetky polia zobrazujú správu Loading...
   render() {
     const problem_id = this.props.navigation.getParam('id');
+    
     const found = this.state.problems.filter(p => p.id === problem_id).length;
 
     return (
