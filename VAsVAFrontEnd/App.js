@@ -4,6 +4,13 @@ import LoginScreen from "./screens/LoginScreen.js";
 import HomeScreen from "./screens/HomeScreen.js";
 import ProfileScreen from "./screens/ProfileScreen.js";
 import {Root} from "native-base";
+import BoulderProblemScreen from "./screens/BoulderProblemScreen.js";
+import WallProblemScreen from "./screens/WallProblemScreen.js";
+import HighscoreScreen from "./screens/HighscoreScreen.js";
+import ProblemDetailsScreen from "./screens/ProblemDetailsScreen.js";
+import QrScreen from "./screens/QrScreen.js";
+import RegisterScreen from "./screens/RegisterScreen.js";
+
 
 const AppNavigator = createStackNavigator(
   {
@@ -24,7 +31,43 @@ const AppNavigator = createStackNavigator(
       navigationOptions: {
         header: null
       }
-    }
+    },
+    Boulder: {
+      screen: BoulderProblemScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Wall: {
+      screen: WallProblemScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Highscore: {
+      screen: HighscoreScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
+    ProblemDetails: {
+      screen: ProblemDetailsScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Qr: {
+      screen: QrScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Register: {
+      screen: RegisterScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
   },
   {
     initialRouteName: "Login"

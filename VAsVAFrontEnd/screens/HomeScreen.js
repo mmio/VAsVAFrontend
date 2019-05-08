@@ -21,6 +21,7 @@ import TintedOpacity from "../components/TintedOpacity.js";
 const CustomIcon = createIconSetFromFontello(fontelloConfig);
 import Config from "react-native-config";
 import AsyncStorage from "@react-native-community/async-storage";
+import stringoflanguages from './lang';
 
 const styles = {
   button: {
@@ -50,14 +51,16 @@ export default class HomeScreen extends React.Component {
     this.drawer._root.open();
   }
 
-  componentDidMount()
+  async componentDidMount()
   {
     try{
-
+      const id = await AsyncStorage.getItem("id");
       AsyncStorage.getItem("profilePic").then(profilePicName =>{
+        
         this.setState({
-          profilePicSource: "http://"+ Config.BACKEND_URL + ":8080/picture/" + profilePicName
+          profilePicSource: profilePicName !== "null" ? Config.BACKEND_URL + "/picture/images_" + id + "/" + profilePicName : Config.BACKEND_URL + "/picture/default.png"
         });
+        console.warn(this.state.profilePicSource);
     });
     }catch(error)
     {
@@ -67,6 +70,8 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
+    stringoflanguages.setLanguage("sk");
+    
     return (
       <StyleProvider style={getTheme(material)}>
         <Drawer
@@ -135,6 +140,7 @@ export default class HomeScreen extends React.Component {
                             height: "100%",
                             backgroundColor: "#f1c40f"
                           }}
+                          onPress={() => this.props.navigation.navigate("Boulder")}
                         >
                           <Text
                             style={{
@@ -162,6 +168,7 @@ export default class HomeScreen extends React.Component {
                             height: "100%",
                             backgroundColor: "#2980b9"
                           }}
+                          onPress={() => this.props.navigation.navigate("Wall")}
                         >
                           <CustomIcon name="climber" size={60} color="white" />
                           <Text style={{ textAlign: "center", fontSize: 16 }}>
@@ -203,6 +210,7 @@ export default class HomeScreen extends React.Component {
                           height: "100%",
                           backgroundColor: "#d35400"
                         }}
+                        onPress={() => this.props.navigation.navigate("Qr")}
                       >
                         <Icon
                           type="FontAwesome"
@@ -224,9 +232,10 @@ export default class HomeScreen extends React.Component {
                         width: "100%",
                         height: "100%"
                       }}
+                      onPress={() => this.props.navigation.navigate("Highscore")}
                     >
                       <Icon type="FontAwesome5" name="bars" />
-                      <Text style={{ fontSize: 26 }}>REBRÍČEK</Text>
+                      <Text style={{ fontSize: 26 }}>{stringoflanguages.highscores}</Text>
                     </Button>
                   </Row>
                 </Grid>

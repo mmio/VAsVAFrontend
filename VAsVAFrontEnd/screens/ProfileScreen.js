@@ -40,6 +40,8 @@ import Modal from "react-native-modal";
 import AutoHeightImage from "react-native-auto-height-image";
 import { HideWithKeyboard } from "react-native-hide-with-keyboard";
 import axios from "../components/axios-instance.js";
+import { endpoint } from "./props";
+
 import AsyncStorage from "@react-native-community/async-storage";
 import ImagePicker from "react-native-image-picker";
 import Config from "react-native-config";
@@ -63,7 +65,8 @@ export default class HomeScreen extends React.Component {
       openedImageSource: " ",
       isEditing: false,
       addingPhoto: false,
-      selectedPhoto: {}
+      selectedPhoto: {},
+      profilePhoto: ""
     };
   }
   closeDrawer() {
@@ -82,8 +85,9 @@ export default class HomeScreen extends React.Component {
       console.warn(err.message);
     }
     axios
-      .get("http://" + Config.BACKEND_URL + ":8080/climber/" + id)
-      .then(responseJson => {
+      .get(Config.BACKEND_URL + "/climber/" + id)
+      .then( async (responseJson) => {
+        const profilePic = responseJson.data.profilePicPath;
         this.setState({
           user: responseJson.data,
           isLoading: false,
@@ -93,9 +97,10 @@ export default class HomeScreen extends React.Component {
           imageSource: responseJson.data.myImages.map((uri, index) => {
             return {
               id: index,
-              src: "http://" + Config.BACKEND_URL + ":8080/picture/images_" + id + "/" + uri
+              src: Config.BACKEND_URL + "/picture/images_" + id + "/" + uri
             };
-          })
+          }),
+          profilePhoto: profilePic === null ? Config.BACKEND_URL + "/picture/default.png" : Config.BACKEND_URL + "/picture/images_" + id + "/" + profilePic
         });
       })
       .catch(error => {
@@ -106,7 +111,7 @@ export default class HomeScreen extends React.Component {
   updateUser() {
     axios
       .put(
-        "http://" + Config.BACKEND_URL + ":8080/climber/" + this.state.user.id,
+        Config.BACKEND_URL + "/climber/" + this.state.user.id,
         this.state.user,
         {
           headers: {
@@ -202,9 +207,7 @@ export default class HomeScreen extends React.Component {
     const id = await AsyncStorage.getItem("id"); 
     axios
       .post(
-        "http://" +
-          Config.BACKEND_URL +
-          ":8080/picture/upload/climber/" +
+        Config.BACKEND_URL + "/picture/upload/climber/" +
           id,
         formData
       )
@@ -212,7 +215,7 @@ export default class HomeScreen extends React.Component {
         if (res.data !== "Upload failed") {
           this.setState(prevState => ({
             imageSource: [...prevState.imageSource, {id:prevState.imageSource.length,
-              src: "http://" + Config.BACKEND_URL + ":8080/picture/images_" + id + "/" + res.data}],
+              src: Config.BACKEND_URL + "/picture/images_" + id + "/" + res.data}],
               addingPhoto: false
           }));
           Toast.show({
@@ -223,6 +226,19 @@ export default class HomeScreen extends React.Component {
         }
       })
       .catch(err => console.warn(err.message));
+  }
+
+  setProfilePicture()
+  {
+    var new_user = this.state.user;
+    const words = this.state.openedImageSource.split('/');
+    new_user.profilePicPath = words[words.length - 1];
+    this.setState({
+      profilePhoto: this.state.openedImageSource,
+      user: new_user
+    });
+    this.updateUser();
+    this.setState({openedImageSource: " "});
   }
 
   render() {
@@ -258,7 +274,7 @@ export default class HomeScreen extends React.Component {
               >
                 <HideWithKeyboard style={{ width: "100%", heigth: "100%" }}>
                   <ImageBackground
-                    source={require("../img/Palino.jpg")}
+                    source={{uri: this.state.profilePhoto}}
                     style={{
                       height: win.height * 0.4,
                       justifyContent: "flex-end"
@@ -585,19 +601,20 @@ export default class HomeScreen extends React.Component {
 
                       <Modal
                         isVisible={this.state.openedImageSource != " "}
-                        onSwipeComplete={() =>
-                          this.setState({ openedImageSource: " " })
-                        }
                         onBackdropPress={() =>
                           this.setState({ openedImageSource: " " })
                         }
-                        swipeDirection="left"
-                        style={{ flex: 1, margin: 0 }}
+                        style={{ flex: 1, margin: 0, justifyContent:"center"}}
                       >
+                      <ScrollView contentContainerStyle={{backgroundColor:"transparent"}}>
+                      <View style={{backgroundColor:"transparent", flexDirection:"row", justifyContent:"space-around", margin:10}}>
+                        <Button transparent><Text style={{color: material.brandLight}} onPress={() => this.setProfilePicture()}>Nastav ako profilovú fotku</Text></Button><Icon onPress={() => this.setState({ openedImageSource: " " })} type="FontAwesome" name="times" style={{color:material.brandLight}}/>
+                      </View>
                         <AutoHeightImage
                           source={{ uri: this.state.openedImageSource }}
                           width={win.width}
                         />
+                      </ScrollView>
                       </Modal>
                     </ScrollView>
                   </Tab>

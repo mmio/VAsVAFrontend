@@ -5,6 +5,8 @@ import android.app.Application;
 import com.facebook.react.ReactApplication;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.imagepicker.ImagePickerPackage;
+import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
+import com.wix.RNCameraKit.RNCameraKitPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -31,6 +33,8 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new ReactNativeConfigPackage(),
             new ImagePickerPackage(),
+            new ReactNativeLocalizationPackage(),
+            new RNCameraKitPackage(),
             new AsyncStoragePackage(),
             new LinearGradientPackage(),
             new VectorIconsPackage(),

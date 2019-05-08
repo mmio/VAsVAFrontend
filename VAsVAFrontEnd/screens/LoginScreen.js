@@ -17,7 +17,7 @@ import { ImageBackground, Image, KeyboardAvoidingView } from "react-native";
 import { HideWithKeyboard } from "react-native-hide-with-keyboard";
 import axios from "../components/axios-instance.js";
 import AsyncStorage from "@react-native-community/async-storage";
-import objectToXWWW from "../components/help-scripts/objectToXWWW-FROM.js"
+import objectToXWWW from "../components/help-scripts/objectToXWWW-FROM.js";
 import Config from "react-native-config";
 
 const styles = {
@@ -47,7 +47,7 @@ export default class LoginScreen extends React.Component {
 
     formBody = objectToXWWW(details);
     axios
-      .post("http://"+ Config.BACKEND_URL + ":8080/oauth/token", formBody, {
+      .post(Config.BACKEND_URL + "/oauth/token", formBody, {
         auth: {
           username: "myClientPassword",
           password: "secret"
@@ -56,23 +56,21 @@ export default class LoginScreen extends React.Component {
           "Content-Type": "application/x-www-form-urlencoded"
         }
       })
-      .then(async (res) => {
-        try{
-          await AsyncStorage.setItem("access_token", res.data.access_token)
+      .then(async res => {
+        try {
+          await AsyncStorage.setItem("access_token", res.data.access_token);
           await AsyncStorage.setItem("refresh_token", res.data.refresh_token);
           await AsyncStorage.setItem("id", JSON.stringify(res.data.id));
-          await AsyncStorage.setItem("profilePic", res.data.profilePic);
+          console.warn(res.data.profilePic);
+          await AsyncStorage.setItem("profilePic", res.data.profilePic === null ? JSON.stringify(res.data.profilePic): res.data.profilePic);
           axios.defaults.headers.common["Authorization"] =
-                "Bearer " + res.data.access_token;
+            "Bearer " + res.data.access_token;
           this.props.navigation.navigate("Home");
-        }catch(err)
-        {
-          console.warn(err.message);
+        } catch (err) {
+          console.warn(err);
         }
-
-
       })
-      .catch(err => console.warn(err.message));
+      .catch(err => console.warn(err.message, Config.BACKEND_URL));
   }
 
   render() {
@@ -142,6 +140,15 @@ export default class LoginScreen extends React.Component {
                       style={{ color: "#fff" }}
                     />
                   </Item>
+                  <Button
+                    transparent
+                    style={{
+                      alignSelf: "center",
+                    }}
+                    onPress={() => this.props.navigation.navigate("Register")}
+                  >
+                    <Text style={{color:material.brandLight}}>Registruj sa!</Text>
+                  </Button>
                   <Button
                     dark
                     style={{ alignSelf: "center" }}
