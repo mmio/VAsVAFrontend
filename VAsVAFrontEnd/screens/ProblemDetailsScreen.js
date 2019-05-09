@@ -66,7 +66,7 @@ function FullList(props) {
     data={props.climbers}
     renderItem={({ item }) =>
       <View>
-        <Text key={item.key} style={styles.item} onPress={() => props.navigation.navigate("OtherProfile", {id: item.id})} >{item.key}. {item.name}</Text>
+        <Text key={item.key} style={styles.item} onPress={() => props.navigation.navigate("Home")} >{item.key}. {item.name}</Text>
       </View>
     }
   />;
@@ -136,6 +136,7 @@ export default class ProblemDetailsScreen extends React.Component {
               type: problem.type,
               grade: problem.grade,
               sector: problem.sector,
+              imageSrc: Config.BACKEND_URL + "/picture/images_" + problem.id + "/" + problem.picturePath,
               desc: 'No description has been provided by the person who added this problem.',
             })
           });
@@ -307,7 +308,8 @@ export default class ProblemDetailsScreen extends React.Component {
                 <ScrollView style={{ margin: "2%" }}>
                   <Row>
                     <Image
-                      source={require("../img/boulder.jpg")}
+                    // {uri: (found) ? this.state.problems.filter(p => p.id === problem_id)[0].imageSrc : '../img/boulder.jpg'}
+                      source={ require('../img/boulder.jpg') }
                       style={{ width: '100%', height: 200 }}
                       resizeMode={'cover'}
                     />

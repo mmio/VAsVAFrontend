@@ -63,10 +63,10 @@ changeLanguage(lang) {
                   <Text style={{color:material.brandDark}}>Odhlásiť sa!</Text>
                 </ListItem>
                 <ListItem button onPress={() => this.changeLanguage("sk")}>
-                  <Text>SK</Text>
+                  <Text style={{color:material.brandDark}}>SK</Text>
                 </ListItem>
                 <ListItem button onPress={() => this.changeLanguage("en")}>
-                  <Text>EN</Text>
+                  <Text style={{color:material.brandDark}}>EN</Text>
                 </ListItem>
               </List>
             </Content>
