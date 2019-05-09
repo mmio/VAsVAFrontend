@@ -148,7 +148,7 @@ export default class LoginScreen extends React.Component {
                 >
                   <H2 style={{ color: "#fff" }}>Lezecká stena X</H2>
                   <Item floatingLabel underline style={styles.item}>
-                    <Label>Email</Label>
+                    <Label>{stringsoflanguages.email}</Label>
                     <Input
                       name="password"
                       onChangeText={text => this.setState({ email: text })}

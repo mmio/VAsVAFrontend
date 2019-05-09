@@ -3,6 +3,7 @@ import { Text, Content, Header, H3, List, ListItem } from "native-base";
 import axios from "./axios-instance.js";
 import AsyncStorage from "@react-native-community/async-storage";
 import material from "../native-base-theme/variables/material.js"
+import stringoflanguages from '../screens/lang';
 
 
 export default class SideBar extends React.Component {
@@ -24,6 +25,16 @@ async logout()
   await AsyncStorage.removeItem("refresh_token");
   await AsyncStorage.removeItem("profilePic");
   this.props.navigation.navigate("Login");
+}
+
+changeLanguage(lang) {
+  if (lang !== "sk" && lang !== "en") {
+    console.log("Wrong language! Defaulting to english (\"en\").")
+    changeLanguage("en");
+  } else {
+    stringoflanguages.setLanguage(lang);
+    this.setState({ lang: lang });
+  }
 }
 
   render() {
@@ -50,6 +61,12 @@ async logout()
                 }             
                 <ListItem button onPress={() => this.logout()}>
                   <Text style={{color:material.brandDark}}>Odhlásiť sa!</Text>
+                </ListItem>
+                <ListItem button onPress={() => this.changeLanguage("sk")}>
+                  <Text>SK</Text>
+                </ListItem>
+                <ListItem button onPress={() => this.changeLanguage("en")}>
+                  <Text>EN</Text>
                 </ListItem>
               </List>
             </Content>
