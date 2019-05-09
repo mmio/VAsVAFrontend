@@ -3,6 +3,7 @@ package com.vasvafrontend;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rnfs.RNFSPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
@@ -15,6 +16,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.horcrux.svg.SvgPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFSPackage(),
             new ReactNativeConfigPackage(),
             new ImagePickerPackage(),
             new ReactNativeLocalizationPackage(),
@@ -38,7 +41,8 @@ public class MainApplication extends Application implements ReactApplication {
             new AsyncStoragePackage(),
             new LinearGradientPackage(),
             new VectorIconsPackage(),
-            new RNGestureHandlerPackage()
+            new RNGestureHandlerPackage(),
+            new SvgPackage()
       );
     }
 

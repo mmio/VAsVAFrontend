@@ -22,6 +22,7 @@ import TintedOpacity from "../components/TintedOpacity";
 import axios from "../components/axios-instance.js";
 import { endpoint } from "./props";
 import { ScrollView } from "react-native-gesture-handler";
+import Config from "react-native-config";
 
 const CustomIcon = createIconSetFromFontello(fontelloConfig);
 
@@ -100,7 +101,7 @@ export default class ProblemDetailsScreen extends React.Component {
 
   componentWillMount() {
     axios
-    .get(`${endpoint}/problems`)
+    .get(Config.BACKEND_URL + "/problems")
       .then((response) =>
         response.data
       )
@@ -126,7 +127,7 @@ export default class ProblemDetailsScreen extends React.Component {
         let order = 0;
         for (let problem of problems) {
           axios
-          .get(`${endpoint}/climbers`)
+          .get(Config.BACKEND_URL + "/climbers")
             .then(response =>
               response.data
             )
@@ -150,14 +151,13 @@ export default class ProblemDetailsScreen extends React.Component {
               });
             })
             .catch(err => {
-              console.err("Error fetching climbers!");
-              console.log(err);
+              console.warn("Error fetching climbers!");
             });
         }
       })
       .catch(err => {
-        console.err("Error fetching problems!");
-        console.log(err);
+        console.warn("Error fetching problems!");
+        console.warn(err.message);
       });
   }
 

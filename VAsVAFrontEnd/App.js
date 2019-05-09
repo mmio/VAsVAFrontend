@@ -10,6 +10,7 @@ import HighscoreScreen from "./screens/HighscoreScreen.js";
 import ProblemDetailsScreen from "./screens/ProblemDetailsScreen.js";
 import QrScreen from "./screens/QrScreen.js";
 import RegisterScreen from "./screens/RegisterScreen.js";
+import AddProblemScreen from "./screens/AddProblemScreen.js"
 
 
 const AppNavigator = createStackNavigator(
@@ -64,6 +65,12 @@ const AppNavigator = createStackNavigator(
     },
     Register: {
       screen: RegisterScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
+    AddProblem: {
+      screen: AddProblemScreen,
       navigationOptions: {
         header: null
       }
