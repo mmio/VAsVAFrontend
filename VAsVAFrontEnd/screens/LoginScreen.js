@@ -9,7 +9,8 @@ import {
   Label,
   Text,
   Button,
-  H2
+  H2,
+  Toast
 } from "native-base";
 import getTheme from "../native-base-theme/components";
 import material from "../native-base-theme/variables/material";
@@ -40,6 +41,16 @@ export default class LoginScreen extends React.Component {
   }
 
   login() {
+    if(this.state.email ==="" || this.state.password==="")
+    {
+      Toast.show({
+        text:"Vyplňte všetky polia",
+        type: "danger",
+        buttonText:"Ok"
+      });
+
+      return;
+    }
     var details = {
       grant_type: "password",
       password: this.state.password,
@@ -62,16 +73,30 @@ export default class LoginScreen extends React.Component {
           await AsyncStorage.setItem("access_token", res.data.access_token);
           await AsyncStorage.setItem("refresh_token", res.data.refresh_token);
           await AsyncStorage.setItem("id", JSON.stringify(res.data.id));
-          console.warn(res.data.profilePic);
           await AsyncStorage.setItem("profilePic", res.data.profilePic === null ? JSON.stringify(res.data.profilePic): res.data.profilePic);
           axios.defaults.headers.common["Authorization"] =
             "Bearer " + res.data.access_token;
+          this.setState({
+            email: "",
+            password: ""
+          });
           this.props.navigation.navigate("Home");
         } catch (err) {
           console.warn(err);
         }
       })
-      .catch(err => console.warn(err.message, Config.BACKEND_URL));
+      .catch(err => {
+        console.warn(err.message);
+        if(err.response.status == 401 || err.response.status == 400)
+        {
+          Toast.show({
+            text:"Nesprávne prihlasovacie údaje",
+            type: "danger",
+            buttonText: "Ok"
+          })
+        }
+      
+      });
   }
 
   render() {

@@ -22,6 +22,7 @@ const CustomIcon = createIconSetFromFontello(fontelloConfig);
 import Config from "react-native-config";
 import AsyncStorage from "@react-native-community/async-storage";
 import stringoflanguages from './lang';
+import axiosInstance from "../components/axios-instance.js";
 
 const styles = {
   button: {
@@ -40,7 +41,8 @@ export default class HomeScreen extends React.Component {
     super()
     this.state = 
     {
-      profilePicSource: " "
+      profilePicSource: " ",
+      admin: false
     }
   }
   closeDrawer() {
@@ -56,11 +58,17 @@ export default class HomeScreen extends React.Component {
     try{
       const id = await AsyncStorage.getItem("id");
       AsyncStorage.getItem("profilePic").then(profilePicName =>{
-        
+
+        axiosInstance.get(Config.BACKEND_URL+ "/climber/" + id + "/permissions")
+        .then(res => {
         this.setState({
           profilePicSource: profilePicName !== "null" ? Config.BACKEND_URL + "/picture/images_" + id + "/" + profilePicName : Config.BACKEND_URL + "/picture/default.png"
         });
-        console.warn(this.state.profilePicSource);
+        if(res.data.includes("ADMIN"))
+        {
+          this.setState({admin:true});
+        }
+      });
     });
     }catch(error)
     {
@@ -82,6 +90,7 @@ export default class HomeScreen extends React.Component {
             <SideBar
               navigation={this.props.navigation}
               closeDrawer={() => this.props.closeDrawer()}
+              admin={this.state.admin}
             />
           }
           onClose={() => this.closeDrawer()}

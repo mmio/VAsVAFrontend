@@ -1,6 +1,7 @@
 import axios from "axios";
 import objectToXWWW from "./help-scripts/objectToXWWW-FROM.js";
 import AsyncStorage from "@react-native-community/async-storage";
+import Config from "react-native-config";
 
 var axiosInstance = axios.create();
 
@@ -22,7 +23,6 @@ axiosInstance.interceptors.response.use(
     if (error.response.status == 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       let refreshToken;
-      console.warn("interceptor fired");
       try {
         refreshToken = await AsyncStorage.getItem("refresh_token");
       } catch (err) {
@@ -34,7 +34,7 @@ axiosInstance.interceptors.response.use(
       };
       formBody = objectToXWWW(details);
       return(axios
-        .post("http://localhost:8080/oauth/token", formBody, {
+        .post(Config.BACKEND_URL + "/oauth/token", formBody, {
           auth: {
             username: "myClientPassword",
             password: "secret"
@@ -55,9 +55,6 @@ axiosInstance.interceptors.response.use(
             originalRequest.headers["Authorization"] =
               "Bearer " + res.data.access_token;
             return axios(originalRequest);
-          },
-          err => {
-            console.warn("1" + err.message);
           }
         ));
     }
