@@ -66,7 +66,7 @@ function FullList(props) {
     data={props.climbers}
     renderItem={({ item }) =>
       <View>
-        <Text key={item.key} style={styles.item} onPress={() => this.props.navigation.navigate("OtherProfile", {id: item.key})} >{item.id}. {item.name}</Text>
+        <Text key={item.key} style={styles.item} onPress={() => props.navigation.navigate("OtherProfile", {id: item.id})} >{item.key}. {item.name}</Text>
       </View>
     }
   />;
@@ -87,7 +87,7 @@ function RenderFlatList(props) {
   logStuff("DEBUG", "Rendering list.");
   if (props.problem) {
     if (props.problem.climbers) {
-      return <FullList climbers={props.problem.climbers}/>;
+      return <FullList climbers={props.problem.climbers} navigation={props.navigation}/>;
     } else {
       logStuff("DEBUG", "List is empty.");
       return <EmptyList />;
@@ -394,7 +394,7 @@ export default class ProblemDetailsScreen extends React.Component {
                     </Row>
 
 
-                        <RenderFlatList problem={this.state.problems.filter(p => p.id === problem_id)[0]} />
+                        <RenderFlatList problem={this.state.problems.filter(p => p.id === problem_id)[0]} navigation={this.props.navigation}/>
 
 
                 </ScrollView>
