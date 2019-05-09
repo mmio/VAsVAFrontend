@@ -115,8 +115,7 @@ export default class ProblemDetailsScreen extends React.Component {
     try {
       id = await AsyncStorage.getItem("id");
     } catch (err) {
-      //!!!!!!!!!
-      id = 1;
+      logStuff("WARN", "Couldn't get curernt use ID.");
       console.warn(err.message);
     }
     this.setState({ myid: id });
