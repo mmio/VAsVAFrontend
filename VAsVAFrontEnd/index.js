@@ -8,7 +8,7 @@ import {name as appName} from './app.json';
 import Reactotron from "reactotron-react-native";
 
 Reactotron
-    .configure({host: '10.10.72.41'}) // controls connection & communication settings
+    .configure({host: '147.175.163.93'}) // controls connection & communication settings
     .useReactNative() // add all built-in react native plugins
     .connect(); // let's connect
 

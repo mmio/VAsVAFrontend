@@ -56,7 +56,7 @@ export default class AddProblemScreen extends React.Component {
         uri: "",
         fileName: null
       },
-      showQR: true,
+      showQR: false,
       id: "22"
     };
   }
@@ -77,6 +77,8 @@ export default class AddProblemScreen extends React.Component {
     const body = toUrlEncoded(details);
     axios
       .post(Config.BACKEND_URL + "/problem", body).then(res =>{
+        
+        this.setState({id:JSON.stringify(res.data)});
 
         const formData = new FormData();
 

@@ -20,6 +20,7 @@ import { endpoint } from "./props";
 import { Dropdown } from 'react-native-material-dropdown';
 import { Col, Row } from "react-native-easy-grid";
 import stringoflanguages from './lang';
+import Config from "react-native-config";
 
 const CustomIcon = createIconSetFromFontello(fontelloConfig);
 
@@ -52,15 +53,14 @@ export default class BoulderProblemScreen extends React.Component {
 
     componentDidMount() {
       axios
-        .get(`${endpoint}/problems`)
+        .get(Config.BACKEND_URL + "/problems")
             .then((response) =>
                   response.data
             )
             .then((problems) => {
               const data = problems
                     //.filter(problem => problem.type === "boulder")
-                    .map(problem => {
-                      console.log(problem);
+                    .map((problem) => {
                         return {
                             key: problem.id,
                             name: problem.name,

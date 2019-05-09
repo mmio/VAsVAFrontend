@@ -102,6 +102,7 @@ export default class HomeScreen extends React.Component {
           }),
           profilePhoto: profilePic === null ? Config.BACKEND_URL + "/picture/default.png" : Config.BACKEND_URL + "/picture/images_" + id + "/" + profilePic
         });
+        console.log(this.state.tableRows);
       })
       .catch(error => {
         console.warn("user details: " + error.message);
@@ -164,7 +165,7 @@ export default class HomeScreen extends React.Component {
     this.updateUser();
   }
 
-  _keyExtractor = (item, index) => item.problem.id.toString();
+  _keyExtractor = (item, index) => {console.log(item); item.problem.id.toString();}
 
   renderImageThumbnail(item, itemSize, itemPaddingHorizontal) {
     return (
