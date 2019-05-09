@@ -33,7 +33,7 @@ changeLanguage(lang) {
     changeLanguage("en");
   } else {
     stringoflanguages.setLanguage(lang);
-    this.setState({ lang: lang });
+    this.setState({ lang });
   }
 }
 

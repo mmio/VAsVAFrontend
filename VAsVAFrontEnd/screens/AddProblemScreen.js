@@ -41,7 +41,6 @@ import QRCode from "react-native-qrcode-svg";
 import RNFS from "react-native-fs"
 import stringoflanguages from './lang';
 
-
 const win = Dimensions.get("window");
 
 export default class AddProblemScreen extends React.Component {
