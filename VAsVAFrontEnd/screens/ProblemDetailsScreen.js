@@ -66,7 +66,7 @@ function FullList(props) {
     data={props.climbers}
     renderItem={({ item }) =>
       <View>
-        <Text key={item.key} style={styles.item} onPress={() => props.navigation.navigate("Home")} >{item.key}. {item.name}</Text>
+        <Text key={item.key} style={styles.item} onPress={() => props.navigation.navigate("OtherProfile", {id: item.id})} >{item.key}. {item.name}</Text>
       </View>
     }
   />;

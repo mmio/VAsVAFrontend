@@ -75,6 +75,7 @@ export default class HighscoreScreen extends React.Component {
                 const data = climbers.map((climber, i) => {
                     return {
                         key: i,
+                        id: climber.id,
                         name: climber.name,
                         problem_count: climber.myProblems.length,
                         score: climber.myProblems.length * i * 100,
@@ -170,7 +171,7 @@ export default class HighscoreScreen extends React.Component {
                                         leftAvatar={{source: require("../img/Palino.jpg")}}
                                         title={item.name}
                                         subtitle={item.score + " " + stringoflanguages.points}
-                                        onPress={() => this.props.navigation.navigate("Wall")}
+                                        onPress={() => this.props.navigation.navigate("OtherProfile", {id: item.id})}
                                     />
                                 }
                             />
