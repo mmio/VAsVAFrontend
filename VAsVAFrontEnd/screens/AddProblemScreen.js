@@ -39,6 +39,7 @@ import toUrlEncoded from "../components/help-scripts/objectToXWWW-FROM.js"
 import Modal from "react-native-modal";
 import QRCode from "react-native-qrcode-svg";
 import RNFS from "react-native-fs"
+import stringoflanguages from './lang';
 
 
 const win = Dimensions.get("window");
@@ -116,7 +117,7 @@ export default class AddProblemScreen extends React.Component {
         .then(() =>{
           this.setState({showQR: false})
           Toast.show({
-            text:"QR kód uložený",
+            text:stringoflanguages.qrSaved,
             type:"success",
             buttonText:"Ok"
           })
@@ -154,11 +155,11 @@ export default class AddProblemScreen extends React.Component {
                 }}
               >
                 <H2 style={{ alignSelf: "center", margin: 5 }}>
-                  Pridaj problém
+                  {`${stringoflanguages.addProblem}`}
                 </H2>
                 <Form>
                   <Item floatingLabel underline style={{ marginVertical: 5 }}>
-                    <Label>Meno</Label>
+                    <Label>{`${stringoflanguages.name}`}</Label>
                     <Input
                       name="name"
                       onChangeText={text => this.setState({ name: text })}
@@ -167,7 +168,7 @@ export default class AddProblemScreen extends React.Component {
                     />
                   </Item>
                   <Item floatingLabel underline style={{ marginVertical: 5 }}>
-                    <Label>Maximálny previs</Label>
+                    <Label>{`${stringoflanguages.maxOverhang}`}</Label>
                     <Input
                       name="overhang"
                       onChangeText={text => this.setState({ overhang: text })}
@@ -176,7 +177,7 @@ export default class AddProblemScreen extends React.Component {
                     />
                   </Item>
                   <Item floatingLabel underline style={{ marginVertical: 5 }}>
-                    <Label>Sektor</Label>
+                    <Label>{`${stringoflanguages.sector}`}</Label>
                     <Input
                       name="sector"
                       onChangeText={text => this.setState({ sector: text })}
@@ -234,7 +235,7 @@ export default class AddProblemScreen extends React.Component {
                     />
                   </View>
                   <Button dark onPress={() => this.addPhoto()} style={{alignSelf:"center", margin:10}}>
-                    <Text>Pridaj obrázok</Text>
+                    <Text>{`${stringoflanguages.addPhoto}`}</Text>
                   </Button>
                   {this.state.selectedPhoto.uri !== "" && (
                     <AutoHeightImage
@@ -244,7 +245,7 @@ export default class AddProblemScreen extends React.Component {
                     />
                   )}
                   <Button dark onPress={() => this.createProblem()} style={{alignSelf:"center", margin:10}}>
-                    <Text>Vytvor problém</Text>
+                    <Text>{`${stringoflanguages.createProblem}`}</Text>
                   </Button>
                 </Form>
               </ScrollView>
@@ -252,8 +253,8 @@ export default class AddProblemScreen extends React.Component {
                     <View style={{backgroundColor:"transparent", justifyContent:"center", alignItems:"center"}}>
                       <QRCode value={this.state.id} size={250} getRef={(ref?) => (this.svg = ref)}/>
                       <View style={{flexDirection:"row", justifyContent:"space-around"}}>
-                        <Button transparent onPress={() => this.saveQR()}><Text style={{color: material.brandLight}}>Ulož QR kód</Text></Button>
-                        <Button transparent onPress={() => { this.setState({showQR:false}); this.props.navigation.navigate("ProblemDetails", {id:this.state.id});}}><Text style={{color: material.brandLight}}>Choď na problém</Text></Button>
+                        <Button transparent onPress={() => this.saveQR()}><Text style={{color: material.brandLight}}>{`${stringoflanguages.saveQr}`}</Text></Button>
+                        <Button transparent onPress={() => { this.setState({showQR:false}); this.props.navigation.navigate("ProblemDetails", {id:this.state.id});}}><Text style={{color: material.brandLight}}> {`${stringoflanguages.goToProblem}`}</Text></Button>
                       </View>
                     </View>
               </Modal>

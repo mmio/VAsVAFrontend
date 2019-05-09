@@ -50,6 +50,13 @@ const strings = new LocalizedStrings({
     cancel: "Cancel",
     myProblems: "My problems",
     showFinished: "Keep showing finished problems",
+
+    // Add problem
+    goToProblem: "Go to problem",
+    saveQr: "Save QR code",
+    createProblem: "Create problem",
+    addProblem: "Add problem",
+    qrSaved: "QR code saved",
   },
   "sk":{
     // HomeScreen
@@ -102,6 +109,12 @@ const strings = new LocalizedStrings({
     myProblems: "Moje problémy",
     showFinished: "Zobrazuj dokončené problémy",
 
+    // Add problem
+    goToProblem: "Choď na problém",
+    saveQr: "Ulož QR kód",
+    createProblem: "Vytvor problém",
+    addProblem: "Pridaj problém",
+    qrSaved: "QR kód uložený",
   }
 });
 export default strings;

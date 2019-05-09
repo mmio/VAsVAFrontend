@@ -157,7 +157,7 @@ export default class LoginScreen extends React.Component {
                     />
                   </Item>
                   <Item floatingLabel underline style={styles.item}>
-                    <Label>`${stringoflanguages.password}`</Label>
+                    <Label>{`${stringoflanguages.password}`}</Label>
                     <Input
                       secureTextEntry
                       name="password"
@@ -180,7 +180,7 @@ export default class LoginScreen extends React.Component {
                     style={{ alignSelf: "center" }}
                     onPress={this.login.bind(this)}
                   >
-                    <Text>`${stringoflanguages.login}`</Text>
+                    <Text>{`${stringoflanguages.login}`}</Text>
                   </Button>
                 </Card>
               </KeyboardAvoidingView>

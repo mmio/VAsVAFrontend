@@ -129,7 +129,7 @@ export default class LoginScreen extends React.Component {
                     flex:1
                   }}
                 >
-                  <H2 style={{ color: "#fff" }}>`${stringoflanguages.registration}`</H2>
+                  <H2 style={{ color: "#fff" }}>{`${stringoflanguages.registration}`}</H2>
                   <Item floatingLabel underline style={styles.item}>
                     <Label>Email</Label>
                     <Input
@@ -140,7 +140,7 @@ export default class LoginScreen extends React.Component {
                     />
                   </Item>
                   <Item floatingLabel underline style={styles.item}>
-                    <Label>`${stringoflanguages.password}`</Label>
+                    <Label>{`${stringoflanguages.password}`}</Label>
                     <Input
                       secureTextEntry
                       name="password"
@@ -150,7 +150,7 @@ export default class LoginScreen extends React.Component {
                     />
                   </Item>
                   <Item floatingLabel underline style={styles.item}>
-                    <Label>`${stringoflanguages.passwordAgain}`</Label>
+                    <Label>{`${stringoflanguages.passwordAgain}`}</Label>
                     <Input
                       secureTextEntry
                       name="repeatPassword"
@@ -171,7 +171,7 @@ export default class LoginScreen extends React.Component {
                             width:"93%"
                           }}
                         >
-                          <Text>`${stringoflanguages.male}`</Text>
+                          <Text>{`${stringoflanguages.male}`}</Text>
                           <CheckBox
                             value={this.state.sex === "M"}
                             onValueChange={text =>
@@ -179,7 +179,7 @@ export default class LoginScreen extends React.Component {
                               )
                             }
                           />
-                          <Text>`${stringoflanguages.female}`</Text>
+                          <Text>{`${stringoflanguages.female}`}</Text>
                           <CheckBox
                             value={this.state.sex === "F"}
                             onValueChange={text =>
@@ -193,7 +193,7 @@ export default class LoginScreen extends React.Component {
                     style={{ alignSelf: "center", margin:10 }}
                     onPress={this.register.bind(this)}
                   >
-                    <Text>`${stringoflanguages.register}`</Text>
+                    <Text>{`${stringoflanguages.register}`}</Text>
                   </Button>
                 </Card>
               </KeyboardAvoidingView>
